@@ -34,7 +34,7 @@ Powiadomienia – klient otrzymuje e-maile lub powiadomienia o promocjach, rabat
 
 
 
-VER 0.00 
+VER 0.00 BETA
 pracowanie nad pomysłem
 
 
