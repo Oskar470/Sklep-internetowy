@@ -26,16 +26,30 @@ Recenzje i opinie – użytkownicy mogą czytać i dodawać opinie o produktach.
 Powiadomienia – klient otrzymuje e-maile lub powiadomienia o promocjach, rabatach i statusie przesyłki.
 
 
-
-
-
-
-
-
-
-
 VER 0.00 BETA
 pracowanie nad pomysłem
 
+🎯 Zastosowane zasady Clean Code:
+1. Czytelne nazewnictwo
+
+Funkcje nazwane według akcji: handleAddToCart, renderProducts,calculateCartTotal
+Zmienne opisowe: PRODUCTS, NOTIFICATION_DURATION,state
+Unikanie skrótów: productzamiast prod, categoryzamiastcat
+
+2. Zasada pojedynczej odpowiedzialności (SRP)
+
+Funkcja robi jedną rzecz
+renderCart()tylko renderuje, calculateCartTotal()tylko liczy sumę
+Małe funkcje (5-15 linii kodu)
+
+3. DRY (Nie powtarzaj się)
+
+Funkcje pomocnicze: getElement(), formatPrice(),findProductById()
+Reużywalne komponenty: createProductCard(),createCartItem()
+
+4. Separacja logiki
+
+Stan aplikacji w obiekciestate
+Konfiguracja w stałych `PRODUCTS
 
 
