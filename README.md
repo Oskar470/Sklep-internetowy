@@ -29,6 +29,8 @@ Powiadomienia – klient otrzymuje e-maile lub powiadomienia o promocjach, rabat
 VER 0.00 BETA
 pracowanie nad pomysłem
 
+
+ver 00.01
 🎯 Zastosowane zasady Clean Code:
 1. Czytelne nazewnictwo
 
@@ -36,20 +38,41 @@ Funkcje nazwane według akcji: handleAddToCart, renderProducts,calculateCartTota
 Zmienne opisowe: PRODUCTS, NOTIFICATION_DURATION,state
 Unikanie skrótów: productzamiast prod, categoryzamiastcat
 
+ver 00.02 
 2. Zasada pojedynczej odpowiedzialności (SRP)
 
 Funkcja robi jedną rzecz
 renderCart()tylko renderuje, calculateCartTotal()tylko liczy sumę
 Małe funkcje (5-15 linii kodu)
 
+ver 00.03 
+
 3. DRY (Nie powtarzaj się)
 
 Funkcje pomocnicze: getElement(), formatPrice(),findProductById()
 Reużywalne komponenty: createProductCard(),createCartItem()
 
+ver 00.04 
+
 4. Separacja logiki
 
 Stan aplikacji w obiekciestate
 Konfiguracja w stałych `PRODUCTS
+
+5. Świetnie! 😊 Widzę, że masz już cztery zasady Clean Code dopasowane do projektu sklepu internetowego.
+Możemy dodać piątą — bardzo ważną w kontekście czytelnego i skalowalnego kodu.
+
+
+ver 00.05
+
+5. KISS (Keep It Simple, Stupid)
+
+Nie komplikuj kodu ponad potrzebę.
+
+Funkcje i komponenty mają być proste, zrozumiałe i łatwe do modyfikacji.
+Unikaj nadmiarowych warunków, zagnieżdżeń i magicznych liczb.
+Jeśli coś da się zrobić prościej — zrób to prościej.
+
+
 
 
