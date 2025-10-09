@@ -54,13 +54,8 @@ Reużywalne komponenty: createProductCard(),createCartItem()
 
 ver 00.04 
 
-4. Separacja logiki
 
-Stan aplikacji w obiekciestate
-Konfiguracja w stałych `PRODUCTS
 
-5. Świetnie! 😊 Widzę, że masz już cztery zasady Clean Code dopasowane do projektu sklepu internetowego.
-Możemy dodać piątą — bardzo ważną w kontekście czytelnego i skalowalnego kodu.
 
 
 ver 00.05
