@@ -38,35 +38,35 @@ Funkcje nazwane według akcji: handleAddToCart, renderProducts,calculateCartTota
 Zmienne opisowe: PRODUCTS, NOTIFICATION_DURATION,state
 Unikanie skrótów: productzamiast prod, categoryzamiastcat
 
-ver 00.02 
+ver 00.02
 2. Zasada pojedynczej odpowiedzialności (SRP)
 
 Funkcja robi jedną rzecz
 renderCart()tylko renderuje, calculateCartTotal()tylko liczy sumę
 Małe funkcje (5-15 linii kodu)
 
-ver 00.03 
+ver 00.03
 
 3. DRY (Nie powtarzaj się)
 
 Funkcje pomocnicze: getElement(), formatPrice(),findProductById()
 Reużywalne komponenty: createProductCard(),createCartItem()
 
-ver 00.04 
+ver 00.04
 
-
-
-
-
-ver 00.05
-
-5. KISS (Keep It Simple, Stupid)
+4. KISS (Keep It Simple, Stupid)
 
 Nie komplikuj kodu ponad potrzebę.
 
 Funkcje i komponenty mają być proste, zrozumiałe i łatwe do modyfikacji.
 Unikaj nadmiarowych warunków, zagnieżdżeń i magicznych liczb.
 Jeśli coś da się zrobić prościej — zrób to prościej.
+
+ver 00.05
+5 (SRP) – Zasada jednej odpowiedzialności: Klasa lub moduł powinien mieć tylk
+ o jeden powód do zmiany, czyli zajmować się tylko jedną, ściśle określoną funkcją
+
+
 
 
 
