@@ -83,6 +83,7 @@ ver 00.05
  Ver 00.09
  
  dodanie list rozwijanych
+ ddodani paska wyszukiwania produktów
  
  
 
