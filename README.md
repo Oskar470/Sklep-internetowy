@@ -69,9 +69,20 @@ ver 00.05
 
 
  Ver 00.06
+ 
  dodanie nagłówka strony
 
  Ver 00.07
+
+ wymyśleni Nazwy strony Tech PC
+
+ Ver 00.08
+
+ dodanie filtrów 
+
+ Ver 00.09
+ 
+ dodanie list rozwijanych
  
  
 
