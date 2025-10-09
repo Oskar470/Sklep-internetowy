@@ -63,6 +63,7 @@ Unikaj nadmiarowych warunków, zagnieżdżeń i magicznych liczb.
 Jeśli coś da się zrobić prościej — zrób to prościej.
 
 ver 00.05
+
 5 (SRP) – Zasada jednej odpowiedzialności: Klasa lub moduł powinien mieć tylk
  o jeden powód do zmiany, czyli zajmować się tylko jedną, ściśle określoną funkcją
 
