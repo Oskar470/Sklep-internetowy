@@ -68,6 +68,14 @@ ver 00.05
  o jeden powód do zmiany, czyli zajmować się tylko jedną, ściśle określoną funkcją
 
 
+ Ver 00.06
+ dodanie nagłówka strony
+
+ Ver 00.07
+ 
+ 
+
+
 
 
 
