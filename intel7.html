@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPC - Intel Core i7</title>
+   <link rel="stylesheet" href="intel7.css">
+</head>
+<body>
+    <!-- GÓRNY PASEK -->
+    <div class="topbar">
+        <div class="topbar-content">
+            <div class="topbar-info">📞 Kontakt: +48 123 456 789 | 📧 sklep@techpc.pl</div>
+            <div class="topbar-links">
+                <a href="log.html">🔐 Zaloguj się</a>
+                <a href="moje-zamowienia.html">📦 Moje zamówienia</a>
+                <a href="pomoc.html">❓ Pomoc</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAGŁÓWEK -->
+     <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">⚡ TechPC</a>
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Szukaj procesorów Intel Core i7...">
+                    <button onclick="handleSearch()">🔍</button>
+                </div>
+            </div>
+            <a href="koszyk.html" class="cart-icon">
+                🛒 Koszyk <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="index.html">Strona główna</a> / <a href="index.html">Procesory</a> / <strong>Intel Core i7</strong>
+    </div>
+
+    <!-- BANNER KATEGORII -->
+    <div class="category-banner">
+        <h1>⚡ Intel Core i7</h1>
+        <p>Procesory Intel Core i7 to idealne rozwiązanie dla zaawansowanych graczy i profesjonalistów. Oferują wysoką wydajność wielowątkową, doskonałe taktowanie oraz wsparcie dla najnowszych technologii Intel.</p>
+    </div>
+
+    <!-- FILTRY -->
+    <div class="filters">
+        <div class="filter-group">
+            <label>Cena:</label>
+            <select id="priceFilter" onchange="handleFilterChange()">
+                <option value="all">Wszystkie</option>
+                <option value="low">Do 1200 zł</option>
+                <option value="medium">1200-1800 zł</option>
+                <option value="high">Powyżej 1800 zł</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Dostępność:</label>
+            <select id="stockFilter" onchange="handleFilterChange()">
+                <option value="all">Wszystkie</option>
+                <option value="in-stock">W magazynie</option>
+                <option value="low-stock">Mało sztuk</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Sortuj:</label>
+            <select id="sortFilter" onchange="handleFilterChange()">
+                <option value="default">Domyślnie</option>
+                <option value="price-asc">Cena rosnąco</option>
+                <option value="price-desc">Cena malejąco</option>
+                <option value="name">Nazwa A-Z</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- PRODUKTY -->
+    <div class="products-section">
+        <h2 class="section-title">Wszystkie procesory Intel Core i7</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- MODAL SZCZEGÓŁÓW PRODUKTU -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content">
+            <div class="product-modal-header">
+                <h2 class="product-modal-title" id="modalTitle"></h2>
+                <span class="close-modal" onclick="closeProductModal()">&times;</span>
+            </div>
+            <div class="product-modal-body">
+                <div class="product-modal-image" id="modalImage"></div>
+                <div class="product-modal-details">
+                    <div class="product-modal-description" id="modalDescription"></div>
+                    <div class="product-modal-specs" id="modalSpecs"></div>
+                    <div class="product-price" id="modalPrice"></div>
+                    <div class="product-stock" id="modalStock"></div>
+                    <button class="btn-add-cart" id="modalAddToCart" style="width: 100%; padding: 15px; font-size: 16px;">
+                        Dodaj do koszyka
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POWIADOMIENIE -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // ==================== BAZA PRODUKTÓW ====================
+        const PRODUCTS = [
+            // PROCESORY AMD (dla kompletności bazy)
+            { id: 4, name: "AMD Ryzen 5 5600X", price: 799, category: "Procesory", subcategory: "AMD Ryzen 5", stock: 20, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/11/pr_2020_11_13_15_31_34_209_08.jpg", specs: {"Rdzenie": "6", "Wątki": "12"} },
+            { id: 7, name: "AMD Ryzen 7 5800X", price: 1199, category: "Procesory", subcategory: "AMD Ryzen 7", stock: 14, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/11/pr_2020_11_5_13_29_50_558_00.jpg", specs: {"Rdzenie": "8", "Wątki": "16"} },
+
+            // PROCESORY INTEL CORE I3 & I5 (dla kompletności)
+            { id: 11, name: "Intel Core i3-12100F", price: 449, category: "Procesory", subcategory: "Intel Core i3", stock: 22, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/1/pr_2022_1_4_13_29_42_573_00.jpg", specs: {"Rdzenie": "4", "Wątki": "8"} },
+            { id: 204, name: "Intel Core i5-12400F", price: 699, category: "Procesory", subcategory: "Intel Core i5", stock: 30, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/1/pr_2022_1_4_13_29_42_573_00.jpg", specs: {"Rdzenie": "6", "Wątki": "12"} },
+
+            // ========== PROCESORY INTEL CORE i7 (15 PRODUKTÓW) ==========
+            { 
+                id: 400, 
+                name: "Intel Core i7-10700F", 
+                price: 999, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Wydajny 8-rdzeniowy procesor 10. generacji. Świetny do gamingu i zadań wielowątkowych. Wersja bez iGPU.", 
+                stock: 18,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/4/pr_2020_4_30_15_24_58_689_00.jpg",
+                specs: { "Rdzenie": "8", "Wątki": "16", "Taktowanie boost": "4.8 GHz", "Socket": "LGA1200", "Grafika": "Brak", "TDP": "65W" }
+            },
+            { 
+                id: 401, 
+                name: "Intel Core i7-10700K", 
+                price: 1299, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Odblokowany mnożnik dla entuzjastów OC. 8 rdzeni z wysokim taktowaniem boost do 5.1 GHz.", 
+                stock: 12,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/4/pr_2020_4_30_15_24_58_689_00.jpg",
+                specs: { "Rdzenie": "8", "Wątki": "16", "Taktowanie boost": "5.1 GHz", "Socket": "LGA1200", "Grafika": "Intel UHD 630", "TDP": "125W" }
+            },
+            { 
+                id: 402, 
+                name: "Intel Core i7-11700F", 
+                price: 1149, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "11. generacja Rocket Lake. Lepsza wydajność IPC, 8 rdzeni. Bez grafiki zintegrowanej.", 
+                stock: 20,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2021/3/pr_2021_3_16_14_49_26_261_00.jpg",
+                specs: { "Rdzenie": "8", "Wątki": "16", "Taktowanie boost": "4.9 GHz", "Socket": "LGA1200", "Grafika": "Brak", "TDP": "65W" }
+            },
+            { 
+                id: 403, 
+                name: "Intel Core i7-11700K", 
+                price: 1499, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Flagowy i7 11. gen z odblokowanym mnożnikiem. PCIe 4.0 i wysokie taktowanie do 5.0 GHz.", 
+                stock: 10,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2021/3/pr_2021_3_16_14_49_26_261_00.jpg",
+                specs: { "Rdzenie": "8", "Wątki": "16", "Taktowanie boost": "5.0 GHz", "Socket": "LGA1200", "Grafika": "Intel UHD 750", "TDP": "125W" }
+            },
+            { 
+                id: 404, 
+                name: "Intel Core i7-12700F", 
+                price: 1399, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Rewolucyjna architektura Alder Lake. 12 rdzeni hybrydowych (8P+4E) dla maksymalnej wydajności.", 
+                stock: 22,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/1/pr_2022_1_4_13_29_42_573_00.jpg",
+                specs: { "Rdzenie": "12 (8P+4E)", "Wątki": "20", "Taktowanie boost": "4.9 GHz", "Socket": "LGA1700", "Grafika": "Brak", "TDP": "65W" }
+            },
+            { 
+                id: 405, 
+                name: "Intel Core i7-12700", 
+                price: 1549, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "12 rdzeni z Intel UHD 770. Doskonały do stacji roboczych z możliwością pracy bez dedykowanej GPU.", 
+                stock: 16,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/1/pr_2022_1_4_13_29_42_573_00.jpg",
+                specs: { "Rdzenie": "12 (8P+4E)", "Wątki": "20", "Taktowanie boost": "4.9 GHz", "Socket": "LGA1700", "Grafika": "Intel UHD 770", "TDP": "65W" }
+            },
+            { 
+                id: 406, 
+                name: "Intel Core i7-12700K", 
+                price: 1699, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Topowy i7 12. generacji. 12 rdzeni z OC, DDR5, PCIe 5.0. Absolutny król mainstream.", 
+                stock: 18,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2021/11/pr_2021_11_4_13_29_42_573_00.jpg",
+                specs: { "Rdzenie": "12 (8P+4E)", "Wątki": "20", "Taktowanie boost": "5.0 GHz", "Socket": "LGA1700", "Grafika": "Intel UHD 770", "TDP": "125W" }
+            },
+            { 
+                id: 407, 
+                name: "Intel Core i7-12700KF", 
+                price: 1599, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Wersja 12700K bez iGPU. Świetna cena dla użytkowników z dedykowaną kartą graficzną.", 
+                stock: 20,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2021/11/pr_2021_11_4_13_29_42_573_00.jpg",
+                specs: { "Rdzenie": "12 (8P+4E)", "Wątki": "20", "Taktowanie boost": "5.0 GHz", "Socket": "LGA1700", "Grafika": "Brak", "TDP": "125W" }
+            },
+            { 
+                id: 408, 
+                name: "Intel Core i7-13700F", 
+                price: 1649, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "13. generacja z 16 rdzeniami (8P+8E). Ogromna moc wielowątkowa w przystępnej cenie.", 
+                stock: 24,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/1/pr_2023_1_3_13_41_42_125_00.jpg",
+                specs: { "Rdzenie": "16 (8P+8E)", "Wątki": "24", "Taktowanie boost": "5.2 GHz", "Socket": "LGA1700", "Grafika": "Brak", "TDP": "65W" }
+            },
+            { 
+                id: 409, 
+                name: "Intel Core i7-13700", 
+                price: 1799, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "16 rdzeni z Intel UHD 770. Wszechstronny procesor do pracy i rozrywki.", 
+                stock: 18,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/1/pr_2023_1_3_13_41_42_125_00.jpg",
+                specs: { "Rdzenie": "16 (8P+8E)", "Wątki": "24", "Taktowanie boost": "5.2 GHz", "Socket": "LGA1700", "Grafika": "Intel UHD 770", "TDP": "65W" }
+            },
+            { 
+                id: 410, 
+                name: "Intel Core i7-13700K", 
+                price: 1949, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Bestsellerowy procesor 13. gen. 16 rdzeni z OC, wyśmienity do gamingu i streamingu.", 
+                stock: 16,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/10/pr_2022_10_20_13_41_42_125_00.jpg",
+                specs: { "Rdzenie": "16 (8P+8E)", "Wątki": "24", "Taktowanie boost": "5.4 GHz", "Socket": "LGA1700", "Grafika": "Intel UHD 770", "TDP": "125W" }
+            },
+            { 
+                id: 411, 
+                name: "Intel Core i7-13700KF", 
+                price: 1849, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Wersja 13700K bez grafiki. Dla graczy z dedykowaną GPU szukających najlepszego stosunku ceny do wydajności.", 
+                stock: 20,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/10/pr_2022_10_20_13_41_42_125_00.jpg",
+                specs: { "Rdzenie": "16 (8P+8E)", "Wątki": "24", "Taktowanie boost": "5.4 GHz", "Socket": "LGA1700", "Grafika": "Brak", "TDP": "125W" }
+            },
+            { 
+                id: 412, 
+                name: "Intel Core i7-14700F", 
+                price: 1799, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Najnowsza 14. generacja. 20 rdzeni (8P+12E) z wyższymi zegarami. Potęga wielowątkowa.", 
+                stock: 22,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2024/1/pr_2024_1_8_15_18_55_376_00.jpg",
+                specs: { "Rdzenie": "20 (8P+12E)", "Wątki": "28", "Taktowanie boost": "5.4 GHz", "Socket": "LGA1700", "Grafika": "Brak", "TDP": "65W" }
+            },
+            { 
+                id: 413, 
+                name: "Intel Core i7-14700K", 
+                price: 2099, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Topowy i7 z 20 rdzeniami i odblokowanym mnożnikiem. Taktowanie do 5.6 GHz - absolutny top!", 
+                stock: 14,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/10/pr_2023_10_17_13_41_42_125_00.jpg",
+                specs: { "Rdzenie": "20 (8P+12E)", "Wątki": "28", "Taktowanie boost": "5.6 GHz", "Socket": "LGA1700", "Grafika": "Intel UHD 770", "TDP": "125W" }
+            },
+            { 
+                id: 414, 
+                name: "Intel Core i7-14700KF", 
+                price: 1999, 
+                category: "Procesory", 
+                subcategory: "Intel Core i7",
+                description: "Najmocniejszy i7 bez iGPU. Dla entuzjastów szukających maksymalnej wydajności w najlepszej cenie.", 
+                stock: 16,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/10/pr_2023_10_17_13_41_42_125_00.jpg",
+                specs: { "Rdzenie": "20 (8P+12E)", "Wątki": "28", "Taktowanie boost": "5.6 GHz", "Socket": "LGA1700", "Grafika": "Brak", "TDP": "125W" }
+            },
+
+            // RESZTA PRODUKTÓW Z INNYCH KATEGORII
+            { id: 19, name: "MSI B550 Gaming Plus", price: 599, category: "Płyty główne", subcategory: "MSI", stock: 16, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/6/pr_2020_6_16_12_43_4_949_00.jpg", specs: { "Format": "ATX", "Chipset": "B550" } }
+        ];
+
+        const CATEGORY_FILTER = "Intel Core i7";
+
+        let cart = JSON.parse(localStorage.getItem('techpc_cart')) || [];
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        function addToCart(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (product && product.stock > 0) {
+                const existingItemIndex = cart.findIndex(item => item.id === productId);
+                if (existingItemIndex > -1) {
+                    cart[existingItemIndex].quantity = (cart[existingItemIndex].quantity || 1) + 1;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                localStorage.setItem('techpc_cart', JSON.stringify(cart));
+                updateCartCount();
+                showNotification(`Dodano ${product.name} do koszyka!`);
+            }
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('productsGrid');
+            const productsToRender = products.filter(p => p.subcategory === CATEGORY_FILTER);
+
+            if (productsToRender.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">Brak procesorów Intel Core i7 spełniających kryteria.</div>';
+                return;
+            }
+
+            grid.innerHTML = productsToRender.map(product => {
+                const stockClass = product.stock > 10 ? 'in-stock' : product.stock > 0 ? 'low-stock' : 'out-of-stock';
+                const stockText = product.stock === 0 ? 'Brak w magazynie' : (product.stock > 10 ? 'W magazynie' : `Ostatnie ${product.stock} szt.`);
+                
+                return `
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Brak+zdjęcia'">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-description">${product.description}</div>
+                            <div class="product-stock">
+                                <div class="stock-indicator ${stockClass}"></div>
+                                <span>${stockText}</span>
+                            </div>
+                            <div class="product-price">${product.price} zł</div>
+                            <div class="product-actions">
+                                <button class="btn-details" onclick="event.stopPropagation(); showProductDetails(${product.id})">Szczegóły</button>
+                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>
+                                    Do koszyka
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleFilterChange() {
+            const priceFilter = document.getElementById('priceFilter').value;
+            const stockFilter = document.getElementById('stockFilter').value;
+            const sortFilter = document.getElementById('sortFilter').value;
+
+            let filtered = PRODUCTS.filter(p => p.subcategory === CATEGORY_FILTER);
+
+            if (priceFilter === 'low') {
+                filtered = filtered.filter(p => p.price <= 1200);
+            } else if (priceFilter === 'medium') {
+                filtered = filtered.filter(p => p.price > 1200 && p.price <= 1800);
+            } else if (priceFilter === 'high') {
+                filtered = filtered.filter(p => p.price > 1800);
+            }
+
+            if (stockFilter === 'in-stock') {
+                filtered = filtered.filter(p => p.stock > 10);
+            } else if (stockFilter === 'low-stock') {
+                filtered = filtered.filter(p => p.stock > 0 && p.stock <= 10);
+            }
+
+            if (sortFilter === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortFilter === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (sortFilter === 'name') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            }
+
+            renderProducts(filtered);
+        }
+
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = PRODUCTS.filter(p => p.subcategory === CATEGORY_FILTER &&
+                (p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm))
+            );
+            renderProducts(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', e => e.key === 'Enter' && handleSearch());
+
+        function showProductDetails(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('modalImage').innerHTML = `<img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/500x500?text=Brak+zdjęcia'">`;
+            document.getElementById('modalDescription').textContent = product.description;
+            document.getElementById('modalPrice').textContent = `${product.price} zł`;
+
+            const stockClass = product.stock > 10 ? 'in-stock' : product.stock > 0 ? 'low-stock' : 'out-of-stock';
+            const stockText = product.stock === 0 ? 'Brak w magazynie' : (product.stock > 10 ? 'W magazynie' : `Ostatnie ${product.stock} szt.`);
+            
+            document.getElementById('modalStock').innerHTML = `<div class="stock-indicator ${stockClass}"></div><span>${stockText}</span>`;
+
+            let specsHtml = Object.entries(product.specs).map(([key, value]) => `
+                <div class="spec-item">
+                    <span class="spec-label">${key}:</span>
+                    <span class="spec-value">${value}</span>
+                </div>
+            `).join('');
+            document.getElementById('modalSpecs').innerHTML = specsHtml;
+
+            const addButton = document.getElementById('modalAddToCart');
+            addButton.disabled = product.stock === 0;
+            addButton.onclick = () => {
+                addToCart(product.id);
+                closeProductModal();
+            };
+
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => { notification.style.display = 'none'; }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts(PRODUCTS);
+            updateCartCount();
+
+            window.onclick = function(event) {
+                const productModal = document.getElementById('productModal');
+                if (event.target === productModal) {
+                    productModal.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

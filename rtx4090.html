@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>TechPC - NVIDIA GeForce RTX 4090</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* ==================== RESET/BODY ==================== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family:'Segoe UI', Arial, sans-serif;
+            background:#0a0a0a;
+            color:#fff;
+            min-height:100vh;
+        }
+
+        /* ==================== TOPBAR ==================== */
+        .topbar {
+            background:#1a1a1a;
+            padding:10px 0;
+            border-bottom:1px solid #333;
+        }
+        .topbar-content{
+            max-width:1200px;
+            margin:0 auto;
+            padding:0 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            font-size:0.9em;
+        }
+        .topbar-info{color:#999;}
+        .topbar-links a{
+            color:#999;
+            text-decoration:none;
+            margin-left:20px;
+            transition:color .3s;
+        }
+        .topbar-links a:hover{color:#00d9ff;}
+
+        /* ==================== HEADER ==================== */
+        header{
+            background:#000;
+            padding:20px 0;
+            border-bottom:2px solid #00d9ff;
+            position:sticky;
+            top:0;
+            z-index:100;
+        }
+        .header-content{
+            max-width:1200px;
+            margin:0 auto;
+            padding:0 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:30px;
+        }
+        .logo{
+            font-size:2em;
+            font-weight:bold;
+            color:#00d9ff;
+            text-decoration:none;
+        }
+        .search-bar{flex:1; max-width:600px;}
+        .search-container{display:flex; gap:10px;}
+        .search-container input{
+            flex:1;
+            padding:10px 15px;
+            background:#1a1a1a;
+            border:2px solid #333;
+            border-radius:25px;
+            color:#fff;
+        }
+        .search-container input:focus{
+            outline:none;
+            border-color:#00d9ff;
+        }
+        .search-container button{
+            padding:10px 20px;
+            background:#00d9ff;
+            color:#000;
+            border:none;
+            border-radius:25px;
+            cursor:pointer;
+            font-weight:bold;
+        }
+        .search-container button:hover{background:#00b8d4;}
+        .cart-icon{
+            background:#1a1a1a;
+            padding:10px 20px;
+            border-radius:25px;
+            border:2px solid #333;
+            color:#fff;
+            text-decoration:none;
+            white-space:nowrap;
+        }
+        .cart-count{
+            background:#00d9ff;
+            color:#000;
+            border-radius:50%;
+            padding:4px 8px;
+            margin-left:8px;
+            font-size:.8em;
+            font-weight:bold;
+        }
+
+        /* ==================== BREADCRUMB ==================== */
+        .breadcrumb{
+            max-width:1200px;
+            margin:20px auto;
+            padding:0 20px;
+            font-size:.9em;
+            color:#999;
+        }
+        .breadcrumb a{
+            color:#00d9ff;
+            text-decoration:none;
+        }
+        .breadcrumb a:hover{color:#00b8d4;}
+
+        /* ==================== BANNER ==================== */
+        .category-banner{
+            max-width:1200px;
+            margin:20px auto;
+            padding:40px 20px;
+            border-radius:15px;
+            border:2px solid #00d9ff;
+            background:linear-gradient(135deg,#1a1a1a 0%,#2a2a2a 100%);
+            text-align:center;
+        }
+        .category-banner h1{
+            font-size:2.5em;
+            margin-bottom:15px;
+            color:#00d9ff;
+        }
+        .category-banner p{
+            max-width:800px;
+            margin:0 auto;
+            color:#bbb;
+            line-height:1.6;
+            font-size:1.1em;
+        }
+
+        /* ==================== FILTRY ==================== */
+        .filters{
+            max-width:1200px;
+            margin:20px auto;
+            padding:20px;
+            background:#1a1a1a;
+            border-radius:10px;
+            display:flex;
+            flex-wrap:wrap;
+            gap:20px;
+            align-items:center;
+        }
+        .filter-group{
+            display:flex;
+            gap:10px;
+            align-items:center;
+        }
+        .filter-group label{
+            font-weight:bold;
+            color:#00d9ff;
+        }
+        .filter-group select{
+            padding:8px 15px;
+            background:#0a0a0a;
+            border:2px solid #333;
+            border-radius:8px;
+            color:#fff;
+        }
+        .filter-group select:focus{
+            outline:none;
+            border-color:#00d9ff;
+        }
+
+        /* ==================== PRODUKTY ==================== */
+        .products-section{
+            max-width:1200px;
+            margin:0 auto;
+            padding:40px 20px;
+        }
+        .section-title{
+            font-size:2em;
+            margin-bottom:25px;
+        }
+        .products-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+            gap:25px;
+        }
+        .product-card{
+            background:#1a1a1a;
+            border-radius:12px;
+            border:2px solid #2a2a2a;
+            overflow:hidden;
+            transition:transform .3s,border-color .3s;
+            cursor:pointer;
+        }
+        .product-card:hover{
+            transform:translateY(-5px);
+            border-color:#00d9ff;
+        }
+        .product-image{
+            height:200px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:linear-gradient(135deg,#1a1a1a 0%,#2a2a2a 100%);
+            border-bottom:2px solid #2a2a2a;
+        }
+        .product-image img{
+            max-width:100%;
+            max-height:100%;
+            object-fit:contain;
+        }
+        .product-info{padding:20px;}
+        .product-name{
+            font-size:1.1em;
+            font-weight:bold;
+            margin-bottom:10px;
+        }
+        .product-description{
+            font-size:.9em;
+            color:#999;
+            margin-bottom:12px;
+        }
+        .product-stock{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            font-size:.9em;
+            margin-bottom:8px;
+        }
+        .stock-indicator{
+            width:10px;
+            height:10px;
+            border-radius:50%;
+        }
+        .in-stock{background:#00ff88;}
+        .low-stock{background:#ffaa00;}
+        .out-of-stock{background:#ff4444;}
+        .product-price{
+            font-size:1.6em;
+            color:#00d9ff;
+            font-weight:bold;
+            margin-bottom:12px;
+        }
+        .product-actions{
+            display:flex;
+            gap:10px;
+        }
+        .btn-details,.btn-add-cart{
+            flex:1;
+            padding:8px 10px;
+            border-radius:8px;
+            border:2px solid #333;
+            background:#2a2a2a;
+            color:#fff;
+            cursor:pointer;
+            font-weight:bold;
+            font-size:.9em;
+        }
+        .btn-details:hover{
+            background:#333;
+            border-color:#00d9ff;
+        }
+        .btn-add-cart{
+            border:none;
+            background:#00d9ff;
+            color:#000;
+        }
+        .btn-add-cart:hover{background:#00b8d4;}
+        .btn-add-cart:disabled{
+            background:#555;
+            color:#888;
+            cursor:not-allowed;
+        }
+
+        /* ==================== MODAL ==================== */
+        .product-modal{
+            display:none;
+            position:fixed;
+            top:0;left:0;
+            width:100%;height:100%;
+            background:rgba(0,0,0,.9);
+            z-index:2000;
+            justify-content:center;
+            align-items:center;
+            overflow-y:auto;
+        }
+        .product-modal-content{
+            background:#1a1a1a;
+            border-radius:15px;
+            border:2px solid #00d9ff;
+            max-width:800px;
+            width:90%;
+            padding:30px;
+            margin:30px 15px;
+        }
+        .product-modal-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+        .product-modal-title{
+            font-size:1.8em;
+            color:#00d9ff;
+        }
+        .close-modal{
+            font-size:28px;
+            color:#999;
+            cursor:pointer;
+        }
+        .close-modal:hover{color:#00d9ff;}
+        .product-modal-body{
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
+        }
+        .product-modal-image{
+            flex:1;
+            min-width:260px;
+            height:260px;
+            border-radius:10px;
+            background:linear-gradient(135deg,#1a1a1a 0%,#2a2a2a 100%);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .product-modal-image img{
+            max-width:100%;
+            max-height:100%;
+            object-fit:contain;
+        }
+        .product-modal-details{
+            flex:1;
+            min-width:260px;
+        }
+        .product-modal-description{
+            color:#ccc;
+            margin-bottom:15px;
+            line-height:1.5;
+        }
+        .product-modal-specs{
+            margin:15px 0;
+        }
+        .spec-item{
+            display:flex;
+            justify-content:space-between;
+            padding:6px 0;
+            border-bottom:1px solid #2a2a2a;
+            font-size:.9em;
+        }
+        .spec-label{color:#999;}
+        .spec-value{font-weight:bold;}
+
+        /* POWIADOMIENIE */
+        .notification{
+            position:fixed;
+            top:90px;
+            right:20px;
+            background:#00d9ff;
+            color:#000;
+            padding:15px 25px;
+            border-radius:8px;
+            font-weight:bold;
+            display:none;
+            z-index:3000;
+        }
+
+        @media(max-width:768px){
+            .header-content{flex-direction:column;align-items:flex-start;}
+            .search-bar{width:100%;}
+            .filters{flex-direction:column;align-items:flex-start;}
+        }
+    </style>
+</head>
+<body>
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="topbar-content">
+            <div class="topbar-info">📞 Kontakt: +48 123 456 789 | 📧 sklep@techpc.pl</div>
+            <div class="topbar-links">
+                <a href="log.html">🔐 Zaloguj się</a>
+                <a href="moje-zamowienia.html">📦 Moje zamówienia</a>
+                <a href="pomoc.html">❓ Pomoc</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <a href="g.html" class="logo">⚡ TechPC</a>
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Szukaj kart RTX 4090...">
+                    <button onclick="handleSearch()">🔍</button>
+                </div>
+            </div>
+            <a href="koszyk.html" class="cart-icon">
+                🛒 Koszyk <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="g.html">Strona główna</a> / <a href="g.html">Karty graficzne</a> / <strong>NVIDIA GeForce RTX 4090</strong>
+    </div>
+
+    <!-- BANNER -->
+    <div class="category-banner">
+        <h1>👑 NVIDIA GeForce RTX 4090</h1>
+        <p>
+            GeForce RTX 4090 to absolutny szczyt możliwości w świecie kart graficznych. 
+            Zapewnia niespotykaną dotąd wydajność w 4K (a nawet 8K), obsługę zaawansowanego ray tracingu,
+            DLSS 3 oraz ogromną ilość pamięci VRAM. Karta dla tych, którzy nie uznają kompromisów.
+        </p>
+    </div>
+
+    <!-- FILTRY -->
+    <div class="filters">
+        <div class="filter-group">
+            <label>Cena:</label>
+            <select id="priceFilter" onchange="handleFilterChange()">
+                <option value="all">Wszystkie</option>
+                <option value="low">Do 9000 zł</option>
+                <option value="medium">9000-11000 zł</option>
+                <option value="high">Powyżej 11000 zł</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Dostępność:</label>
+            <select id="stockFilter" onchange="handleFilterChange()">
+                <option value="all">Wszystkie</option>
+                <option value="in-stock">W magazynie</option>
+                <option value="low-stock">Mało sztuk</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Sortuj:</label>
+            <select id="sortFilter" onchange="handleFilterChange()">
+                <option value="default">Domyślnie</option>
+                <option value="price-asc">Cena rosnąco</option>
+                <option value="price-desc">Cena malejąco</option>
+                <option value="name">Nazwa A-Z</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- PRODUKTY -->
+    <div class="products-section">
+        <h2 class="section-title">Karty graficzne NVIDIA GeForce RTX 4090</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content">
+            <div class="product-modal-header">
+                <div class="product-modal-title" id="modalTitle"></div>
+                <span class="close-modal" onclick="closeProductModal()">&times;</span>
+            </div>
+            <div class="product-modal-body">
+                <div class="product-modal-image" id="modalImage"></div>
+                <div class="product-modal-details">
+                    <div class="product-modal-description" id="modalDescription"></div>
+                    <div class="product-modal-specs" id="modalSpecs"></div>
+                    <div class="product-price" id="modalPrice"></div>
+                    <div class="product-stock" id="modalStock"></div>
+                    <button class="btn-add-cart" id="modalAddToCart">
+                        Dodaj do koszyka
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POWIADOMIENIE -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // ==================== BAZA RTX 4090 ====================
+        const PRODUCTS = [
+            {
+                id: 409001,
+                name: "ASUS TUF Gaming GeForce RTX 4090",
+                price: 8999,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4090",
+                description: "Potężna RTX 4090 w wersji TUF Gaming, z masywnym chłodzeniem i wysoką kulturą pracy.",
+                stock: 3,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/9/pr_2022_9_29_11_56_14_728_00.jpg",
+                specs: {
+                    "Producent": "ASUS",
+                    "Model": "TUF Gaming",
+                    "VRAM": "24 GB GDDR6X",
+                    "Szyna": "384-bit",
+                    "TDP": "450 W",
+                    "Zasilanie": "1x 16-pin (12VHPWR)",
+                    "Wyjścia": "3x DP, 2x HDMI",
+                    "Długość": "348 mm"
+                }
+            },
+            {
+                id: 409002,
+                name: "MSI GeForce RTX 4090 Suprim X",
+                price: 9999,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4090",
+                description: "Seria Suprim X – najwyższa jakość wykonania, zaawansowane chłodzenie i fabryczne OC.",
+                stock: 2,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/9/pr_2022_9_29_11_56_14_728_00.jpg",
+                specs: {
+                    "Producent": "MSI",
+                    "Model": "Suprim X",
+                    "VRAM": "24 GB GDDR6X",
+                    "Szyna": "384-bit",
+                    "TDP": "480 W",
+                    "Zasilanie": "1x 16-pin (12VHPWR)",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "336 mm"
+                }
+            },
+            {
+                id: 409003,
+                name: "Gigabyte GeForce RTX 4090 AORUS Master",
+                price: 10499,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4090",
+                description: "AORUS Master z unikalnym designem, RGB Fusion i jednym z najlepszych systemów chłodzenia.",
+                stock: 1,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/9/pr_2022_9_29_11_56_14_728_00.jpg",
+                specs: {
+                    "Producent": "Gigabyte",
+                    "Model": "AORUS Master",
+                    "VRAM": "24 GB GDDR6X",
+                    "Szyna": "384-bit",
+                    "TDP": "450 W",
+                    "Zasilanie": "1x 16-pin (12VHPWR)",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "358 mm"
+                }
+            },
+            {
+                id: 409004,
+                name: "Zotac GeForce RTX 4090 Trinity OC",
+                price: 8799,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4090",
+                description: "Model Trinity OC z potężnym chłodzeniem IceStorm 3.0 i ciekawym RGB SPECTRA 2.0.",
+                stock: 4,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/9/pr_2022_9_29_11_56_14_728_00.jpg",
+                specs: {
+                    "Producent": "Zotac",
+                    "Model": "Trinity OC",
+                    "VRAM": "24 GB GDDR6X",
+                    "Szyna": "384-bit",
+                    "TDP": "450 W",
+                    "Zasilanie": "1x 16-pin (12VHPWR)",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "356 mm"
+                }
+            },
+            {
+                id: 409005,
+                name: "Palit GeForce RTX 4090 GameRock",
+                price: 8699,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4090",
+                description: "Seria GameRock z charakterystycznym, kryształowym frontem i mocnym systemem chłodzenia.",
+                stock: 2,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/9/pr_2022_9_29_11_56_14_728_00.jpg",
+                specs: {
+                    "Producent": "Palit",
+                    "Model": "GameRock",
+                    "VRAM": "24 GB GDDR6X",
+                    "Szyna": "384-bit",
+                    "TDP": "450 W",
+                    "Zasilanie": "1x 16-pin (12VHPWR)",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "329 mm"
+                }
+            }
+        ];
+
+        const CATEGORY_FILTER = "NVIDIA RTX 4090";
+        let cart = JSON.parse(localStorage.getItem('techpc_cart')) || [];
+
+        function updateCartCount() {
+            const total = cart.reduce((s,p)=>s+(p.quantity||1),0);
+            document.getElementById('cartCount').textContent = total;
+        }
+
+        function addToCart(id){
+            const p = PRODUCTS.find(x=>x.id===id);
+            if(!p || p.stock<=0) return;
+            const idx = cart.findIndex(x=>x.id===id);
+            if(idx>-1) cart[idx].quantity=(cart[idx].quantity||1)+1;
+            else cart.push({...p,quantity:1});
+            localStorage.setItem('techpc_cart',JSON.stringify(cart));
+            updateCartCount();
+            showNotification(`Dodano ${p.name} do koszyka`);
+        }
+
+        function renderProducts(list){
+            const grid = document.getElementById('productsGrid');
+            const items = list.filter(p=>p.subcategory===CATEGORY_FILTER);
+            if(items.length===0){
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:#999;">Brak kart RTX 4090 spełniających kryteria.</div>';
+                return;
+            }
+            grid.innerHTML = items.map(p=>{
+                const stockClass = p.stock>10?'in-stock':p.stock>0?'low-stock':'out-of-stock';
+                const stockText  = p.stock>10?'W magazynie':p.stock>0?`Ostatnie ${p.stock} szt.`:'Brak';
+                return `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${p.image}" alt="${p.name}"
+                             onerror="this.src='https://via.placeholder.com/300x200?text=RTX+4090'">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-description">${p.description}</div>
+                        <div class="product-stock">
+                            <div class="stock-indicator ${stockClass}"></div>
+                            <span>${stockText}</span>
+                        </div>
+                        <div class="product-price">${p.price} zł</div>
+                        <div class="product-actions">
+                            <button class="btn-details" onclick="event.stopPropagation();showProductDetails(${p.id})">Szczegóły</button>
+                            <button class="btn-add-cart" onclick="event.stopPropagation();addToCart(${p.id})" ${p.stock===0?'disabled':''}>Do koszyka</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function handleFilterChange(){
+            const price = document.getElementById('priceFilter').value;
+            const stock = document.getElementById('stockFilter').value;
+            const sort  = document.getElementById('sortFilter').value;
+
+            let list = [...PRODUCTS];
+
+            if(price==='low') list = list.filter(p=>p.price<=9000);
+            else if(price==='medium') list=list.filter(p=>p.price>9000 && p.price<=11000);
+            else if(price==='high') list=list.filter(p=>p.price>11000);
+
+            if(stock==='in-stock') list=list.filter(p=>p.stock>10);
+            else if(stock==='low-stock') list=list.filter(p=>p.stock>0 && p.stock<=10);
+
+            if(sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+            else if(sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+            else if(sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+
+            renderProducts(list);
+        }
+
+        function handleSearch(){
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const list = PRODUCTS.filter(p =>
+                p.subcategory===CATEGORY_FILTER &&
+                (p.name.toLowerCase().includes(term)
+                || p.description.toLowerCase().includes(term))
+            );
+            renderProducts(list);
+        }
+
+        // MODAL
+        function showProductDetails(id){
+            const p = PRODUCTS.find(x=>x.id===id);
+            if(!p) return;
+            document.getElementById('modalTitle').textContent = p.name;
+            document.getElementById('modalImage').innerHTML =
+                `<img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x300?text=RTX+4090'">`;
+            document.getElementById('modalDescription').textContent = p.description;
+            document.getElementById('modalPrice').textContent = p.price + ' zł';
+            const stockClass = p.stock>10?'in-stock':p.stock>0?'low-stock':'out-of-stock';
+            const stockText  = p.stock>10?'W magazynie':p.stock>0?`Ostatnie ${p.stock} szt.`:'Brak';
+            document.getElementById('modalStock').innerHTML =
+                `<div class="stock-indicator ${stockClass}"></div><span>${stockText}</span>`;
+            let specsHtml='';
+            for(const [k,v] of Object.entries(p.specs)){
+                specsHtml += `<div class="spec-item"><span class="spec-label">${k}:</span><span class="spec-value">${v}</span></div>`;
+            }
+            document.getElementById('modalSpecs').innerHTML = specsHtml;
+            const btn = document.getElementById('modalAddToCart');
+            btn.disabled = p.stock===0;
+            btn.onclick = ()=>{addToCart(p.id);closeProductModal();};
+            document.getElementById('productModal').style.display='flex';
+        }
+        function closeProductModal(){
+            document.getElementById('productModal').style.display='none';
+        }
+
+        // POWIADOMIENIA
+        function showNotification(msg){
+            const n = document.getElementById('notification');
+            n.textContent = msg;
+            n.style.display = 'block';
+            setTimeout(()=>{n.style.display='none';},2500);
+        }
+
+        // INICJALIZACJA
+        document.addEventListener('DOMContentLoaded', ()=>{
+            renderProducts(PRODUCTS);
+            updateCartCount();
+            document.getElementById('searchInput')
+                .addEventListener('keypress',e=>{if(e.key==='Enter')handleSearch()});
+            window.addEventListener('click',e=>{
+                const m = document.getElementById('productModal');
+                if(e.target===m) closeProductModal();
+            });
+        });
+    </script>
+</body>
+</html>

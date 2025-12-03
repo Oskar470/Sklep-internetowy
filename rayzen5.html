@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPC - AMD Ryzen 5</title>
+    ,<link rel="stylesheet" href="rayzen5.css">
+</head>
+</head>
+<body>
+    <!-- GÓRNY PASEK -->
+    <div class="topbar">
+        <div class="topbar-content">
+            <div class="topbar-info">📞 Kontakt: +48 123 456 789 | 📧 sklep@techpc.pl</div>
+            <div class="topbar-links">
+                <a href="log.html">🔐 Zaloguj się</a>
+                <a href="zamówienia.html">📦 Moje zamówienia</a>
+                <a href="pomoc.html">❓ Pomoc</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAGŁÓWEK -->
+     <header>
+        <div class="header-content">
+            <a href="g.html" class="logo">⚡ TechPC</a>
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Szukaj procesorów AMD Ryzen 5...">
+                    <button onclick="handleSearch()">🔍</button>
+                </div>
+            </div>
+            <a href="koszyk.html" class="cart-icon">
+                🛒 Koszyk <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="g.html">Strona główna</a> / <a href="g.html">Procesory</a> / <strong>AMD Ryzen 5</strong>
+    </div>
+
+    <!-- BANNER KATEGORII -->
+    <div class="category-banner">
+        <h1>🎮 AMD Ryzen 5</h1>
+        <p>Procesory AMD Ryzen 5 to idealny wybór dla graczy i twórców treści. Oferują doskonały balans między ceną a wydajnością, zapewniając płynną rozgrywkę i szybką pracę w aplikacjach kreatywnych.</p>
+    </div>
+
+    <!-- FILTRY -->
+    <div class="filters">
+        <div class="filter-group">
+            <label>Cena:</label>
+            <select id="priceFilter" onchange="handleFilterChange()">
+                <option value="all">Wszystkie</option>
+                <option value="low">Do 500 zł</option>
+                <option value="medium">500-900 zł</option>
+                <option value="high">Powyżej 900 zł</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Dostępność:</label>
+            <select id="stockFilter" onchange="handleFilterChange()">
+                <option value="all">Wszystkie</option>
+                <option value="in-stock">W magazynie</option>
+                <option value="low-stock">Mało sztuk</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Sortuj:</label>
+            <select id="sortFilter" onchange="handleFilterChange()">
+                <option value="default">Domyślnie</option>
+                <option value="price-asc">Cena rosnąco</option>
+                <option value="price-desc">Cena malejąco</option>
+                <option value="name">Nazwa A-Z</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- PRODUKTY -->
+    <div class="products-section">
+        <h2 class="section-title">Wszystkie procesory AMD Ryzen 5</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- MODAL SZCZEGÓŁÓW PRODUKTU -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content">
+            <div class="product-modal-header">
+                <h2 class="product-modal-title" id="modalTitle"></h2>
+                <span class="close-modal" onclick="closeProductModal()">&times;</span>
+            </div>
+            <div class="product-modal-body">
+                <div class="product-modal-image" id="modalImage"></div>
+                <div class="product-modal-details">
+                    <div class="product-modal-description" id="modalDescription"></div>
+                    <div class="product-modal-specs" id="modalSpecs"></div>
+                    <div class="product-price" id="modalPrice"></div>
+                    <div class="product-stock" id="modalStock"></div>
+                    <button class="btn-add-cart" id="modalAddToCart" style="width: 100%; padding: 15px; font-size: 16px;">
+                        Dodaj do koszyka
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POWIADOMIENIE -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // ==================== BAZA PRODUKTÓW ====================
+        const PRODUCTS = [
+            // PROCESORY Z INNYCH KATEGORII (dla kompletności bazy)
+            { id: 7, name: "AMD Ryzen 7 5800X", price: 1199, category: "Procesory", subcategory: "AMD Ryzen 7", stock: 14, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/11/pr_2020_11_5_13_29_50_558_00.jpg", specs: {"Rdzenie": "8", "Wątki": "16"} },
+            { id: 62, name: "AMD Ryzen 9 5900X", price: 1799, category: "Procesory", subcategory: "AMD Ryzen 9", stock: 15, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/11/pr_2020_11_5_13_29_50_558_00.jpg", specs: {"Rdzenie": "12", "Wątki": "24"} },
+            { id: 11, name: "Intel Core i3-12100F", price: 449, category: "Procesory", subcategory: "Intel Core i3", stock: 22, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/1/pr_2022_1_4_13_29_42_573_00.jpg", specs: {"Rdzenie": "4", "Wątki": "8"} },
+
+            // ========== PROCESORY AMD RYZEN 5 (15 PRODUKTÓW) ==========
+            
+            // SERIA 1000 (ZEN)
+            { 
+                id: 300, 
+                name: "AMD Ryzen 5 1600", 
+                price: 299, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Legendarny 6-rdzeniowy procesor, który zmienił rynek. Świetny do budżetowych zestawów i retro buildów.", 
+                stock: 8,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2017/3/pr_2017_3_2_12_54_46_482_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.2 GHz", "Takt boost": "3.6 GHz", "Socket": "AM4", "TDP": "65W" }
+            },
+            { 
+                id: 301, 
+                name: "AMD Ryzen 5 1600 AF", 
+                price: 349, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Odświeżona wersja na architekturze Zen+ (12nm). Lepsza wydajność przy niskiej cenie.", 
+                stock: 5,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2017/3/pr_2017_3_2_12_54_46_482_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.2 GHz", "Takt boost": "3.6 GHz", "Socket": "AM4", "TDP": "65W" }
+            },
+
+            // SERIA 2000 (ZEN+)
+            { 
+                id: 302, 
+                name: "AMD Ryzen 5 2600", 
+                price: 399, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Popularny 6-rdzeniowy procesor Zen+. Doskonały stosunek ceny do wydajności dla graczy.", 
+                stock: 12,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2018/4/pr_2018_4_13_15_18_55_376_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.4 GHz", "Takt boost": "3.9 GHz", "Socket": "AM4", "TDP": "65W" }
+            },
+            { 
+                id: 303, 
+                name: "AMD Ryzen 5 2600X", 
+                price: 449, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Wyżej taktowana wersja z lepszym chłodzeniem w zestawie. Gotowy do pracy od razu po wyjęciu z pudełka.", 
+                stock: 6,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2018/4/pr_2018_4_13_15_18_55_376_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.6 GHz", "Takt boost": "4.2 GHz", "Socket": "AM4", "TDP": "95W" }
+            },
+
+            // SERIA 3000 (ZEN 2)
+            { 
+                id: 304, 
+                name: "AMD Ryzen 5 3600", 
+                price: 549, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Jeden z najpopularniejszych procesorów w historii. Architektura Zen 2 (7nm) z doskonałą wydajnością.", 
+                stock: 20,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2019/7/pr_2019_7_2_14_49_51_296_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.6 GHz", "Takt boost": "4.2 GHz", "Socket": "AM4", "TDP": "65W" }
+            },
+            { 
+                id: 305, 
+                name: "AMD Ryzen 5 3600XT", 
+                price: 649, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Odświeżona wersja z wyższymi zegarami. Maksimum wydajności z architektury Zen 2.", 
+                stock: 4,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/7/pr_2020_7_7_14_59_11_252_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.8 GHz", "Takt boost": "4.5 GHz", "Socket": "AM4", "TDP": "95W" }
+            },
+
+            // SERIA 4000 (ZEN 2 - OEM/APU)
+            { 
+                id: 306, 
+                name: "AMD Ryzen 5 4500", 
+                price: 399, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Budżetowy procesor Zen 2 bez SMT. Świetny wybór do taniego zestawu gamingowego.", 
+                stock: 25,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/4/pr_2022_4_8_10_52_2_763_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "6", "Takt bazowy": "3.6 GHz", "Takt boost": "4.1 GHz", "Socket": "AM4", "TDP": "65W" }
+            },
+            { 
+                id: 307, 
+                name: "AMD Ryzen 5 4600G", 
+                price: 499, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "APU z zintegrowaną grafiką Radeon Vega 7. Idealny do kompaktowego PC bez dedykowanej karty.", 
+                stock: 15,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2021/4/pr_2021_4_13_8_47_6_89_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt boost": "4.2 GHz", "Socket": "AM4", "Grafika": "Radeon Vega 7", "TDP": "65W" }
+            },
+
+            // SERIA 5000 (ZEN 3)
+            { 
+                id: 308, 
+                name: "AMD Ryzen 5 5500", 
+                price: 499, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Przystępny cenowo procesor Zen 3. 6 rdzeni z obsługą SMT do gier i codziennej pracy.", 
+                stock: 30,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/4/pr_2022_4_8_11_27_18_728_06.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.6 GHz", "Takt boost": "4.2 GHz", "Socket": "AM4", "TDP": "65W" }
+            },
+            { 
+                id: 309, 
+                name: "AMD Ryzen 5 5600", 
+                price: 599, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Świetna alternatywa dla 5600X. Prawie identyczna wydajność w niższej cenie.", 
+                stock: 22,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/4/pr_2022_4_8_11_27_18_728_06.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.5 GHz", "Takt boost": "4.4 GHz", "Socket": "AM4", "TDP": "65W" }
+            },
+            { 
+                id: 4, 
+                name: "AMD Ryzen 5 5600X", 
+                price: 699, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Bestsellerowy procesor Zen 3. Doskonały do gamingu z najlepszą wydajnością jednowątkową w swojej klasie.", 
+                stock: 18,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/11/pr_2020_11_13_15_31_34_209_08.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.7 GHz", "Takt boost": "4.6 GHz", "Socket": "AM4", "TDP": "65W" }
+            },
+            { 
+                id: 310, 
+                name: "AMD Ryzen 5 5600G", 
+                price: 649, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "APU Zen 3 z grafiką Radeon Vega 7. Graj w popularne tytuły bez dedykowanej karty graficznej.", 
+                stock: 16,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2021/8/pr_2021_8_5_8_32_49_597_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt boost": "4.4 GHz", "Socket": "AM4", "Grafika": "Radeon Vega 7", "TDP": "65W" }
+            },
+
+            // SERIA 7000 (ZEN 4)
+            { 
+                id: 311, 
+                name: "AMD Ryzen 5 7600", 
+                price: 899, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Wydajny procesor Zen 4 o niższym TDP. Platforma AM5 z obsługą DDR5 i PCIe 5.0.", 
+                stock: 14,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/1/pr_2023_1_12_10_51_52_688_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "3.8 GHz", "Takt boost": "5.1 GHz", "Socket": "AM5", "TDP": "65W" }
+            },
+            { 
+                id: 5, 
+                name: "AMD Ryzen 5 7600X", 
+                price: 999, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Flagowy Ryzen 5 z architekturą Zen 4. Wysokie zegary i świetna wydajność w grach.", 
+                stock: 20,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/9/pr_2022_9_27_14_23_51_693_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt bazowy": "4.7 GHz", "Takt boost": "5.3 GHz", "Socket": "AM5", "TDP": "105W" }
+            },
+
+            // SERIA 8000/9000 (ZEN 4/5)
+            { 
+                id: 312, 
+                name: "AMD Ryzen 5 8600G", 
+                price: 1199, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Najnowsze APU z grafiką RDNA 3. Graj w 1080p bez dedykowanej karty graficznej!", 
+                stock: 12,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2024/1/pr_2024_1_8_15_18_55_376_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt boost": "5.0 GHz", "Socket": "AM5", "Grafika": "Radeon 760M (RDNA 3)", "TDP": "65W" }
+            },
+            { 
+                id: 313, 
+                name: "AMD Ryzen 5 9600X", 
+                price: 1299, 
+                category: "Procesory", 
+                subcategory: "AMD Ryzen 5",
+                description: "Najnowsza architektura Zen 5. Jeszcze wyższa wydajność IPC i efektywność energetyczna.", 
+                stock: 10,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2022/9/pr_2022_9_27_14_23_51_693_00.jpg",
+                specs: { "Rdzenie": "6", "Wątki": "12", "Takt boost": "5.4 GHz", "Socket": "AM5", "Cache": "38 MB", "TDP": "65W" }
+            },
+
+            // RESZTA PRODUKTÓW Z INNYCH KATEGORII
+            { id: 19, name: "MSI B550 Gaming Plus", price: 599, category: "Płyty główne", subcategory: "MSI", stock: 16, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2020/6/pr_2020_6_16_12_43_4_949_00.jpg", specs: { "Format": "ATX", "Chipset": "B550" } },
+            { id: 29, name: "ASUS GeForce RTX 4060 Dual", price: 1499, category: "Karty graficzne", subcategory: "NVIDIA RTX 4060", stock: 12, image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/6/pr_2023_6_29_11_23_36_300_00.jpg", specs: { "VRAM": "8 GB GDDR6" } }
+        ];
+
+        const CATEGORY_FILTER = "AMD Ryzen 5";
+
+        let cart = JSON.parse(localStorage.getItem('techpc_cart')) || [];
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        function addToCart(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (product && product.stock > 0) {
+                const existingItemIndex = cart.findIndex(item => item.id === productId);
+                if (existingItemIndex > -1) {
+                    cart[existingItemIndex].quantity = (cart[existingItemIndex].quantity || 1) + 1;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                localStorage.setItem('techpc_cart', JSON.stringify(cart));
+                updateCartCount();
+                showNotification(`Dodano ${product.name} do koszyka!`);
+            }
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('productsGrid');
+            const productsToRender = products.filter(p => p.subcategory === CATEGORY_FILTER);
+
+            if (productsToRender.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">Brak procesorów AMD Ryzen 5 spełniających kryteria.</div>';
+                return;
+            }
+
+            grid.innerHTML = productsToRender.map(product => {
+                const stockClass = product.stock > 10 ? 'in-stock' : product.stock > 0 ? 'low-stock' : 'out-of-stock';
+                const stockText = product.stock === 0 ? 'Brak w magazynie' : (product.stock > 10 ? 'W magazynie' : `Ostatnie ${product.stock} szt.`);
+                
+                return `
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Brak+zdjęcia'">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-description">${product.description}</div>
+                            <div class="product-stock">
+                                <div class="stock-indicator ${stockClass}"></div>
+                                <span>${stockText}</span>
+                            </div>
+                            <div class="product-price">${product.price} zł</div>
+                            <div class="product-actions">
+                                <button class="btn-details" onclick="event.stopPropagation(); showProductDetails(${product.id})">Szczegóły</button>
+                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>
+                                    Do koszyka
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleFilterChange() {
+            const priceFilter = document.getElementById('priceFilter').value;
+            const stockFilter = document.getElementById('stockFilter').value;
+            const sortFilter = document.getElementById('sortFilter').value;
+
+            let filtered = PRODUCTS.filter(p => p.subcategory === CATEGORY_FILTER);
+
+            // Filtr ceny (dostosowany dla Ryzen 5)
+            if (priceFilter === 'low') {
+                filtered = filtered.filter(p => p.price <= 500);
+            } else if (priceFilter === 'medium') {
+                filtered = filtered.filter(p => p.price > 500 && p.price <= 900);
+            } else if (priceFilter === 'high') {
+                filtered = filtered.filter(p => p.price > 900);
+            }
+
+            if (stockFilter === 'in-stock') {
+                filtered = filtered.filter(p => p.stock > 10);
+            } else if (stockFilter === 'low-stock') {
+                filtered = filtered.filter(p => p.stock > 0 && p.stock <= 10);
+            }
+
+            if (sortFilter === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortFilter === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (sortFilter === 'name') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            }
+
+            renderProducts(filtered);
+        }
+
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = PRODUCTS.filter(p => p.subcategory === CATEGORY_FILTER &&
+                (p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm))
+            );
+            renderProducts(filtered);
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', e => e.key === 'Enter' && handleSearch());
+
+        function showProductDetails(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('modalImage').innerHTML = `<img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/500x500?text=Brak+zdjęcia'">`;
+            document.getElementById('modalDescription').textContent = product.description;
+            document.getElementById('modalPrice').textContent = `${product.price} zł`;
+
+            const stockClass = product.stock > 10 ? 'in-stock' : product.stock > 0 ? 'low-stock' : 'out-of-stock';
+            const stockText = product.stock === 0 ? 'Brak w magazynie' : (product.stock > 10 ? 'W magazynie' : `Ostatnie ${product.stock} szt.`);
+            
+            document.getElementById('modalStock').innerHTML = `<div class="stock-indicator ${stockClass}"></div><span>${stockText}</span>`;
+
+            let specsHtml = Object.entries(product.specs).map(([key, value]) => `
+                <div class="spec-item">
+                    <span class="spec-label">${key}:</span>
+                    <span class="spec-value">${value}</span>
+                </div>
+            `).join('');
+            document.getElementById('modalSpecs').innerHTML = specsHtml;
+
+            const addButton = document.getElementById('modalAddToCart');
+            addButton.disabled = product.stock === 0;
+            addButton.onclick = () => {
+                addToCart(product.id);
+                closeProductModal();
+            };
+
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => { notification.style.display = 'none'; }, 3000);
+        }
+
+        function getUserData() {
+            return JSON.parse(localStorage.getItem('loggedInUser'));
+        }
+
+        function logoutUser() {
+            if (confirm('Czy na pewno chcesz się wylogować?')) {
+                localStorage.removeItem('loggedInUser');
+                showNotification('Wylogowano pomyślnie!');
+                setupTopbarLinks();
+            }
+        }
+
+        function setupTopbarLinks() {
+            const user = getUserData();
+            const topbarUserLinks = document.getElementById('topbarUserLinks');
+            const currentPage = window.location.pathname.split('/').pop();
+            
+            let linksHtml = '';
+            if (user) {
+                linksHtml = `
+                    <span>Witaj, ${user.username}!</span>
+                    <a href="konto.html" class="${currentPage === 'konto.html' ? 'active' : ''}">👤 Moje Konto</a>
+                    <a href="moje-zamowienia.html" class="${currentPage === 'moje-zamowienia.html' ? 'active' : ''}">📦 Moje zamówienia</a>
+                    <a href="#" onclick="logoutUser()">🚪 Wyloguj się</a>
+                `;
+            } else {
+                linksHtml = `
+                    <a href="log.html" class="${currentPage === 'log.html' ? 'active' : ''}">🔐 Zaloguj się</a>
+                    <a href="moje-zamowienia.html" class="${currentPage === 'moje-zamowienia.html' ? 'active' : ''}">📦 Moje zamówienia</a>
+                `;
+            }
+            linksHtml += `<a href="#">❓ Pomoc</a>`;
+            topbarUserLinks.innerHTML = linksHtml;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts(PRODUCTS);
+            updateCartCount();
+            setupTopbarLinks();
+
+            window.onclick = function(event) {
+                const productModal = document.getElementById('productModal');
+                if (event.target === productModal) {
+                    productModal.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

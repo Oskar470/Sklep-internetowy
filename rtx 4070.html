@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>TechPC - NVIDIA GeForce RTX 4070</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="rtx 4070.css">
+</head>
+<body>
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="topbar-content">
+            <div class="topbar-info">📞 Kontakt: +48 123 456 789 | 📧 sklep@techpc.pl</div>
+            <div class="topbar-links">
+                <a href="log.html">🔐 Zaloguj się</a>
+                <a href="moje-zamowienia.html">📦 Moje zamówienia</a>
+                <a href="pomoc.html">❓ Pomoc</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <a href="g.html" class="logo">⚡ TechPC</a>
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Szukaj kart RTX 4070...">
+                    <button onclick="handleSearch()">🔍</button>
+                </div>
+            </div>
+            <a href="koszyk.html" class="cart-icon">
+                🛒 Koszyk <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="g.html">Strona główna</a> / <a href="g.html">Karty graficzne</a> / <strong>NVIDIA GeForce RTX 4070</strong>
+    </div>
+
+    <!-- BANNER -->
+    <div class="category-banner">
+        <h1>🚀 NVIDIA GeForce RTX 4070</h1>
+        <p>
+            Karty graficzne GeForce RTX 4070 oferują świetną wydajność w rozdzielczości QHD (1440p),
+            obsługę ray tracingu i DLSS 3. To doskonały wybór dla wymagających graczy oraz twórców treści,
+            którym zależy na wysokiej liczbie FPS i kulturze pracy.
+        </p>
+    </div>
+
+    <!-- FILTRY -->
+    <div class="filters">
+        <div class="filter-group">
+            <label>Cena:</label>
+            <select id="priceFilter" onchange="handleFilterChange()">
+                <option value="all">Wszystkie</option>
+                <option value="low">Do 2800 zł</option>
+                <option value="medium">2800-3400 zł</option>
+                <option value="high">Powyżej 3400 zł</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Dostępność:</label>
+            <select id="stockFilter" onchange="handleFilterChange()">
+                <option value="all">Wszystkie</option>
+                <option value="in-stock">W magazynie</option>
+                <option value="low-stock">Mało sztuk</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Sortuj:</label>
+            <select id="sortFilter" onchange="handleFilterChange()">
+                <option value="default">Domyślnie</option>
+                <option value="price-asc">Cena rosnąco</option>
+                <option value="price-desc">Cena malejąco</option>
+                <option value="name">Nazwa A-Z</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- PRODUKTY -->
+    <div class="products-section">
+        <h2 class="section-title">Karty graficzne NVIDIA GeForce RTX 4070</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content">
+            <div class="product-modal-header">
+                <div class="product-modal-title" id="modalTitle"></div>
+                <span class="close-modal" onclick="closeProductModal()">&times;</span>
+            </div>
+            <div class="product-modal-body">
+                <div class="product-modal-image" id="modalImage"></div>
+                <div class="product-modal-details">
+                    <div class="product-modal-description" id="modalDescription"></div>
+                    <div class="product-modal-specs" id="modalSpecs"></div>
+                    <div class="product-price" id="modalPrice"></div>
+                    <div class="product-stock" id="modalStock"></div>
+                    <button class="btn-add-cart" id="modalAddToCart">
+                        Dodaj do koszyka
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POWIADOMIENIE -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // ==================== BAZA RTX 4070 ====================
+        const PRODUCTS = [
+            {
+                id: 407001,
+                name: "Gigabyte GeForce RTX 4070 Gaming OC",
+                price: 2799,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4070",
+                description: "Popularny model Gaming OC z trzema wentylatorami WindForce i fabrycznym OC.",
+                stock: 12,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/4/pr_2023_4_13_11_23_5_428_00.jpg",
+                specs: {
+                    "Producent": "Gigabyte",
+                    "Model": "Gaming OC",
+                    "VRAM": "12 GB GDDR6X",
+                    "Szyna": "192-bit",
+                    "TDP": "200 W",
+                    "Zasilanie": "1x 8-pin",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "300 mm"
+                }
+            },
+            {
+                id: 407002,
+                name: "ASUS GeForce RTX 4070 TUF Gaming",
+                price: 3199,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4070",
+                description: "Seria TUF Gaming z rozbudowanym chłodzeniem i wzmocnioną konstrukcją.",
+                stock: 8,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/4/pr_2023_4_13_11_23_5_428_00.jpg",
+                specs: {
+                    "Producent": "ASUS",
+                    "Model": "TUF Gaming",
+                    "VRAM": "12 GB GDDR6X",
+                    "Szyna": "192-bit",
+                    "TDP": "220 W",
+                    "Zasilanie": "1x 16-pin (12VHPWR)",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "305 mm"
+                }
+            },
+            {
+                id: 407003,
+                name: "MSI GeForce RTX 4070 Gaming X Trio",
+                price: 3299,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4070",
+                description: "Model Gaming X Trio z potężnym chłodzeniem Tri Frozr i podświetleniem RGB.",
+                stock: 6,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/4/pr_2023_4_13_11_23_5_428_00.jpg",
+                specs: {
+                    "Producent": "MSI",
+                    "Model": "Gaming X Trio",
+                    "VRAM": "12 GB GDDR6X",
+                    "Szyna": "192-bit",
+                    "TDP": "215 W",
+                    "Zasilanie": "1x 16-pin (12VHPWR)",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "338 mm"
+                }
+            },
+            {
+                id: 407004,
+                name: "Zotac GeForce RTX 4070 Twin Edge OC",
+                price: 2899,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4070",
+                description: "Kompaktowa RTX 4070 z dwoma wentylatorami, idealna do mniejszych obudów.",
+                stock: 10,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/4/pr_2023_4_13_11_23_5_428_00.jpg",
+                specs: {
+                    "Producent": "Zotac",
+                    "Model": "Twin Edge OC",
+                    "VRAM": "12 GB GDDR6X",
+                    "Szyna": "192-bit",
+                    "TDP": "200 W",
+                    "Zasilanie": "1x 8-pin",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "249 mm"
+                }
+            },
+            {
+                id: 407005,
+                name: "Palit GeForce RTX 4070 JetStream",
+                price: 2699,
+                category: "Karty graficzne",
+                subcategory: "NVIDIA RTX 4070",
+                description: "Utrzymana w stonowanej stylistyce JetStream, świetna do eleganckich zestawów bez RGB.",
+                stock: 14,
+                image: "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2023/4/pr_2023_4_13_11_23_5_428_00.jpg",
+                specs: {
+                    "Producent": "Palit",
+                    "Model": "JetStream",
+                    "VRAM": "12 GB GDDR6X",
+                    "Szyna": "192-bit",
+                    "TDP": "200 W",
+                    "Zasilanie": "1x 8-pin",
+                    "Wyjścia": "3x DP, 1x HDMI",
+                    "Długość": "329 mm"
+                }
+            }
+        ];
+
+        const CATEGORY_FILTER = "NVIDIA RTX 4070";
+        let cart = JSON.parse(localStorage.getItem('techpc_cart')) || [];
+
+        function updateCartCount() {
+            const total = cart.reduce((s,p)=>s+(p.quantity||1),0);
+            document.getElementById('cartCount').textContent = total;
+        }
+
+        function addToCart(id){
+            const p = PRODUCTS.find(x=>x.id===id);
+            if(!p || p.stock<=0) return;
+            const idx = cart.findIndex(x=>x.id===id);
+            if(idx>-1) cart[idx].quantity=(cart[idx].quantity||1)+1;
+            else cart.push({...p,quantity:1});
+            localStorage.setItem('techpc_cart',JSON.stringify(cart));
+            updateCartCount();
+            showNotification(`Dodano ${p.name} do koszyka`);
+        }
+
+        function renderProducts(list){
+            const grid = document.getElementById('productsGrid');
+            const items = list.filter(p=>p.subcategory===CATEGORY_FILTER);
+            if(items.length===0){
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:#999;">Brak kart RTX 4070 spełniających kryteria.</div>';
+                return;
+            }
+            grid.innerHTML = items.map(p=>{
+                const stockClass = p.stock>10?'in-stock':p.stock>0?'low-stock':'out-of-stock';
+                const stockText  = p.stock>10?'W magazynie':p.stock>0?`Ostatnie ${p.stock} szt.`:'Brak';
+                return `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${p.image}" alt="${p.name}"
+                             onerror="this.src='https://via.placeholder.com/300x200?text=RTX+4070'">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-description">${p.description}</div>
+                        <div class="product-stock">
+                            <div class="stock-indicator ${stockClass}"></div>
+                            <span>${stockText}</span>
+                        </div>
+                        <div class="product-price">${p.price} zł</div>
+                        <div class="product-actions">
+                            <button class="btn-details" onclick="event.stopPropagation();showProductDetails(${p.id})">Szczegóły</button>
+                            <button class="btn-add-cart" onclick="event.stopPropagation();addToCart(${p.id})" ${p.stock===0?'disabled':''}>Do koszyka</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function handleFilterChange(){
+            const price = document.getElementById('priceFilter').value;
+            const stock = document.getElementById('stockFilter').value;
+            const sort  = document.getElementById('sortFilter').value;
+
+            let list = [...PRODUCTS];
+
+            if(price==='low') list = list.filter(p=>p.price<=2800);
+            else if(price==='medium') list=list.filter(p=>p.price>2800 && p.price<=3400);
+            else if(price==='high') list=list.filter(p=>p.price>3400);
+
+            if(stock==='in-stock') list=list.filter(p=>p.stock>10);
+            else if(stock==='low-stock') list=list.filter(p=>p.stock>0 && p.stock<=10);
+
+            if(sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+            else if(sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+            else if(sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+
+            renderProducts(list);
+        }
+
+        function handleSearch(){
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const list = PRODUCTS.filter(p =>
+                p.subcategory===CATEGORY_FILTER &&
+                (p.name.toLowerCase().includes(term)
+                || p.description.toLowerCase().includes(term))
+            );
+            renderProducts(list);
+        }
+
+        // MODAL
+        function showProductDetails(id){
+            const p = PRODUCTS.find(x=>x.id===id);
+            if(!p) return;
+            document.getElementById('modalTitle').textContent = p.name;
+            document.getElementById('modalImage').innerHTML =
+                `<img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x300?text=RTX+4070'">`;
+            document.getElementById('modalDescription').textContent = p.description;
+            document.getElementById('modalPrice').textContent = p.price + ' zł';
+            const stockClass = p.stock>10?'in-stock':p.stock>0?'low-stock':'out-of-stock';
+            const stockText  = p.stock>10?'W magazynie':p.stock>0?`Ostatnie ${p.stock} szt.`:'Brak';
+            document.getElementById('modalStock').innerHTML =
+                `<div class="stock-indicator ${stockClass}"></div><span>${stockText}</span>`;
+            let specsHtml='';
+            for(const [k,v] of Object.entries(p.specs)){
+                specsHtml += `<div class="spec-item"><span class="spec-label">${k}:</span><span class="spec-value">${v}</span></div>`;
+            }
+            document.getElementById('modalSpecs').innerHTML = specsHtml;
+            const btn = document.getElementById('modalAddToCart');
+            btn.disabled = p.stock===0;
+            btn.onclick = ()=>{addToCart(p.id);closeProductModal();};
+            document.getElementById('productModal').style.display='flex';
+        }
+        function closeProductModal(){
+            document.getElementById('productModal').style.display='none';
+        }
+
+        // POWIADOMIENIA
+        function showNotification(msg){
+            const n = document.getElementById('notification');
+            n.textContent = msg;
+            n.style.display = 'block';
+            setTimeout(()=>{n.style.display='none';},2500);
+        }
+
+        // INICJALIZACJA
+        document.addEventListener('DOMContentLoaded', ()=>{
+            renderProducts(PRODUCTS);
+            updateCartCount();
+            document.getElementById('searchInput')
+                .addEventListener('keypress',e=>{if(e.key==='Enter')handleSearch()});
+            window.addEventListener('click',e=>{
+                const m = document.getElementById('productModal');
+                if(e.target===m) closeProductModal();
+            });
+        });
+    </script>
+</body>
+</html>

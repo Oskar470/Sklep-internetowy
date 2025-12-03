@@ -1,0 +1,1113 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPC - Gwarancja i Reklamacje</title>
+    <style>
+        /* ==================== RESET I BAZOWE STYLE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* ==================== GÓRNY PASEK (TOPBAR) ==================== */
+        .topbar {
+            background: #1a1a1a;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .topbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .topbar-info {
+            color: #999;
+        }
+
+        .topbar-links a {
+            color: #999;
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.3s;
+        }
+
+        .topbar-links a:hover {
+            color: #00d9ff;
+        }
+        
+        .topbar-links .active {
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        /* ==================== NAGŁÓWEK ==================== */
+        header {
+            background: #000000;
+            padding: 20px 0;
+            border-bottom: 2px solid #00d9ff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00d9ff;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 12px 20px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #00d9ff;
+        }
+
+        .search-container button {
+            padding: 12px 30px;
+            background: #00d9ff;
+            color: #000;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .search-container button:hover {
+            background: #00b8d4;
+        }
+
+        .cart-icon {
+            background: #1a1a1a;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: 2px solid #333;
+            white-space: nowrap;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .cart-icon:hover {
+            background: #252525;
+            border-color: #00d9ff;
+            color: #00d9ff;
+        }
+
+        .cart-count {
+            background: #00d9ff;
+            color: #000;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-weight: bold;
+            margin-left: 10px;
+            font-size: 0.9em;
+        }
+
+        /* ==================== BREADCRUMB ==================== */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .breadcrumb a {
+            color: #00d9ff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #00b8d4;
+        }
+
+        /* ==================== GŁÓWNY KONTENER ==================== */
+        .warranty-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px 80px 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 3em;
+            color: #00d9ff;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            color: #999;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        /* ==================== SZYBKIE LINKI ==================== */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .quick-link-card {
+            background: #1a1a1a;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #2a2a2a;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .quick-link-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d9ff;
+        }
+
+        .quick-link-card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .quick-link-card h3 {
+            color: #00d9ff;
+            margin-bottom: 10px;
+        }
+
+        .quick-link-card p {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        /* ==================== SEKCJE ==================== */
+        .warranty-section {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid #2a2a2a;
+            margin-bottom: 30px;
+            scroll-margin-top: 100px;
+        }
+
+        .warranty-section h2 {
+            color: #00d9ff;
+            font-size: 2em;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .warranty-section h3 {
+            color: #00d9ff;
+            font-size: 1.4em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .warranty-section p,
+        .warranty-section li {
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .warranty-section ul,
+        .warranty-section ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .warranty-section strong {
+            color: #fff;
+        }
+
+        /* ==================== INFOBOXY ==================== */
+        .info-box {
+            background: #0a0a0a;
+            padding: 25px;
+            border-left: 4px solid #00d9ff;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .info-box.warning {
+            border-left-color: #ffaa00;
+        }
+
+        .info-box.success {
+            border-left-color: #00ff88;
+        }
+
+        .info-box.error {
+            border-left-color: #ff4444;
+        }
+
+        .info-box h4 {
+            color: #00d9ff;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .info-box p {
+            margin: 0;
+        }
+
+        .info-box ul {
+            margin-top: 10px;
+        }
+
+        /* ==================== TIMELINE ==================== */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 30px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #00d9ff;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00d9ff;
+            border: 3px solid #1a1a1a;
+        }
+
+        .timeline-item h4 {
+            color: #00d9ff;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* ==================== TABELA PORÓWNAWCZA ==================== */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: #0a0a0a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .comparison-table th {
+            background: #00d9ff;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table td:first-child {
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        /* ==================== FORMULARZ REKLAMACJI ==================== */
+        .complaint-form {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid #2a2a2a;
+            margin-top: 40px;
+        }
+
+        .complaint-form h2 {
+            color: #00d9ff;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #00d9ff;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #00d9ff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn-submit {
+            padding: 15px 40px;
+            background: #00d9ff;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #00b8d4;
+        }
+
+        .form-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .form-message.success {
+            background: #00ff88;
+            color: #000;
+        }
+
+        .form-message.error {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        /* ==================== DOWNLOAD BUTTONS ==================== */
+        .download-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .download-card {
+            background: #0a0a0a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #2a2a2a;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .download-card:hover {
+            border-color: #00d9ff;
+        }
+
+        .download-card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .download-card h4 {
+            color: #00d9ff;
+            margin-bottom: 10px;
+        }
+
+        .download-card p {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .btn-download {
+            display: inline-block;
+            padding: 10px 25px;
+            background: #00d9ff;
+            color: #000;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-download:hover {
+            background: #00b8d4;
+        }
+
+        /* ==================== RESPONSYWNOŚĆ ==================== */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .page-title {
+                font-size: 2em;
+            }
+
+            .warranty-section {
+                padding: 25px;
+            }
+
+            .complaint-form {
+                padding: 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+     <!-- GÓRNY PASEK -->
+    <div class="topbar">
+        <div class="topbar-content">
+            <div class="topbar-info">📞 Kontakt: +48 123 456 789 | 📧 sklep@techpc.pl</div>
+            <div class="topbar-links">
+                <a href="log.html">🔐 Zaloguj się</a>
+                <a href="zamówienia.html">📦 Moje zamówienia</a>
+                <a href="pomoc.html">❓ Pomoc</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAGŁÓWEK -->
+    <header>
+        <div class="header-content">
+            <a href="g.html" class="logo">⚡ TechPC</a>
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Szukaj produktów...">
+                    <button onclick="handleSearch()">🔍</button>
+                </div>
+            </div>
+            <a href="koszyk.html" class="cart-icon">
+                🛒 Koszyk <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="g.html">Strona główna</a> / <strong>Gwarancja i Reklamacje</strong>
+    </div>
+
+    <!-- GŁÓWNA ZAWARTOŚĆ -->
+    <div class="warranty-container">
+        <div class="page-header">
+            <h1 class="page-title">🛡️ Gwarancja i Reklamacje</h1>
+            <p class="page-subtitle">Twoje prawa, nasze zobowiązania. Kompleksowy przewodnik po gwarancji, rękojmi i procedurze reklamacyjnej.</p>
+        </div>
+
+        <!-- SZYBKIE LINKI -->
+        <div class="quick-links">
+            <div class="quick-link-card" onclick="scrollToSection('warranty-types')">
+                <div class="quick-link-card-icon">📜</div>
+                <h3>Rodzaje gwarancji</h3>
+                <p>Poznaj różnice między gwarancją a rękojmią</p>
+            </div>
+
+            <div class="quick-link-card" onclick="scrollToSection('complaint-process')">
+                <div class="quick-link-card-icon">🔄</div>
+                <h3>Proces reklamacji</h3>
+                <p>Krok po kroku - jak zgłosić reklamację</p>
+            </div>
+
+            <div class="quick-link-card" onclick="scrollToSection('warranty-terms')">
+                <div class="quick-link-card-icon">⏰</div>
+                <h3>Okresy gwarancyjne</h3>
+                <p>Sprawdź długość gwarancji dla produktów</p>
+            </div>
+
+            <div class="quick-link-card" onclick="scrollToSection('complaint-form')">
+                <div class="quick-link-card-icon">✉️</div>
+                <h3>Zgłoś reklamację</h3>
+                <p>Formularz online - szybko i wygodnie</p>
+            </div>
+        </div>
+
+        <!-- RODZAJE GWARANCJI -->
+        <div class="warranty-section" id="warranty-types">
+            <h2>📜 Rodzaje gwarancji i ochrony konsumenta</h2>
+            
+            <h3>1. Gwarancja producenta</h3>
+            <p>Gwarancja producenta to <strong>dobrowolne zobowiązanie</strong> producenta lub importera do naprawy, wymiany lub zwrotu pieniędzy w przypadku wystąpienia wady w określonym czasie.</p>
+
+            <div class="info-box success">
+                <h4>✅ Zalety gwarancji producenta:</h4>
+                <ul>
+                    <li>Zwykle dłuższy okres ochrony (24-36 miesięcy)</li>
+                    <li>Precyzyjnie określone warunki</li>
+                    <li>Często obejmuje autoryzowane serwisy w całej Polsce</li>
+                    <li>Może obejmować dodatkowe świadczenia (np. sprzęt zastępczy)</li>
+                </ul>
+            </div>
+
+            <p><strong>Ważne:</strong> Warunki gwarancji określa karta gwarancyjna dołączona do produktu. Gwarancja nie wyłącza, nie ogranicza ani nie zawiesza uprawnień wynikających z rękojmi.</p>
+
+            <h3>2. Rękojmia (odpowiedzialność sprzedawcy)</h3>
+            <p>Rękojmia to <strong>ustawowy obowiązek sprzedawcy</strong> wynikający z Kodeksu cywilnego. Sprzedawca odpowiada za wady fizyczne i prawne produktu.</p>
+
+            <div class="info-box">
+                <h4>📋 Podstawowe informacje o rękojmi:</h4>
+                <ul>
+                    <li><strong>Okres:</strong> 2 lata od daty zakupu (dla konsumentów)</li>
+                    <li><strong>Domniemanie wady:</strong> Wada ujawniona w ciągu 1 roku od zakupu domniemywa się, że istniała w momencie sprzedaży</li>
+                    <li><strong>Odpowiedzialność:</strong> Spoczywa na sprzedawcy (TechPC), nie producencie</li>
+                    <li><strong>Uprawnienia:</strong> Wymiana, naprawa, obniżenie ceny, odstąpienie od umowy</li>
+                </ul>
+            </div>
+
+            <h3>3. Porównanie gwarancji i rękojmi</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Cecha</th>
+                        <th>Gwarancja producenta</th>
+                        <th>Rękojmia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Podstawa prawna</td>
+                        <td>Dobrowolna - oświadczenie gwarancyjne</td>
+                        <td>Obowiązkowa - Kodeks cywilny</td>
+                    </tr>
+                    <tr>
+                        <td>Kto odpowiada</td>
+                        <td>Producent / Importer</td>
+                        <td>Sprzedawca (TechPC)</td>
+                    </tr>
+                    <tr>
+                        <td>Typowy okres</td>
+                        <td>24-36 miesięcy</td>
+                        <td>24 miesiące (konsumenci)</td>
+                    </tr>
+                    <tr>
+                        <td>Ciężar dowodu</td>
+                        <td>Klient musi wykazać wadę</td>
+                        <td>W ciągu 1 roku - domniemanie wady</td>
+                    </tr>
+                    <tr>
+                        <td>Dostępność</td>
+                        <td>Serwisy autoryzowane</td>
+                        <td>Sprzedawca (TechPC)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box warning">
+                <h4>⚠️ Ważne dla konsumentów:</h4>
+                <p>Możesz skorzystać <strong>jednocześnie</strong> zarówno z gwarancji, jak i rękojmi. Jeśli producent odmówi naprawy gwarancyjnej, zawsze możesz zgłosić reklamację do sprzedawcy w ramach rękojmi.</p>
+            </div>
+        </div>
+
+        <!-- PROCES REKLAMACJI -->
+        <div class="warranty-section" id="complaint-process">
+            <h2>🔄 Proces reklamacji krok po kroku</h2>
+            
+            <p>Poniżej przedstawiamy szczegółową procedurę zgłaszania i rozpatrywania reklamacji w TechPC.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Krok 1: Zgłoszenie reklamacji</h4>
+                    <p>Wypełnij formularz reklamacyjny online (na dole strony) lub wyślij zgłoszenie na adres <strong>reklamacje@techpc.pl</strong>. Możesz także zgłosić reklamację telefonicznie (+48 123 456 789) lub osobiście w naszym sklepie.</p>
+                    <p><strong>Wymagane informacje:</strong> Numer zamówienia, opis wady, żądanie (naprawa/wymiana/zwrot), zdjęcia wady (jeśli to możliwe).</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Krok 2: Potwierdzenie przyjęcia reklamacji</h4>
+                    <p>W ciągu <strong>24 godzin</strong> (dni robocze) otrzymasz potwierdzenie przyjęcia reklamacji wraz z numerem sprawy RMA i instrukcjami dotyczącymi odesłania produktu (jeśli konieczne).</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Krok 3: Odesłanie produktu</h4>
+                    <p>Zapakuj produkt bezpiecznie (najlepiej w oryginalne opakowanie) i dołącz:</p>
+                    <ul>
+                        <li>Wydrukowany formularz reklamacji z numerem RMA</li>
+                        <li>Kopię dowodu zakupu (paragon/faktura)</li>
+                        <li>Wszystkie akcesoria dołączone do produktu</li>
+                    </ul>
+                    <p>Wyślij na adres: <strong>TechPC Sp. z o.o., ul. Przykładowa 123, 00-001 Warszawa</strong> z dopiskiem <strong>"REKLAMACJA RMA-XXXXX"</strong></p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Krok 4: Diagnostyka i ocena</h4>
+                    <p>Po otrzymaniu produktu nasz zespół techniczny przeprowadzi szczegółową diagnostykę w ciągu <strong>3-5 dni roboczych</strong>. Zostaniesz poinformowany o wynikach.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Krok 5: Decyzja</h4>
+                    <p>Rozpatrzenie reklamacji następuje w terminie <strong>do 14 dni</strong> od otrzymania produktu. Otrzymasz informację o:</p>
+                    <ul>
+                        <li>Uznaniu lub odmowie reklamacji</li>
+                        <li>Sposobie załatwienia (naprawa/wymiana/zwrot pieniędzy)</li>
+                        <li>Przewidywanym terminie realizacji</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Krok 6: Realizacja</h4>
+                    <p>W przypadku uznania reklamacji:</p>
+                    <ul>
+                        <li><strong>Naprawa:</strong> Zwykle 7-14 dni</li>
+                        <li><strong>Wymiana:</strong> Natychmiastowa (jeśli produkt dostępny w magazynie)</li>
+                        <li><strong>Zwrot pieniędzy:</strong> W ciągu 14 dni od decyzji</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box success">
+                <h4>💡 Nasza gwarancja satysfakcji:</h4>
+                <p>Staramy się rozpatrywać proste reklamacje <strong>w trybie przyspieszonym</strong> (często w ciągu 3-5 dni). Jeśli naprawa trwa dłużej niż 14 dni, możesz zażądać produktu zastępczego (w zależności od dostępności).</p>
+            </div>
+        </div>
+
+        <!-- OKRESY GWARANCYJNE -->
+        <div class="warranty-section" id="warranty-terms">
+            <h2>⏰ Okresy gwarancyjne dla poszczególnych kategorii</h2>
+            
+            <p>Poniżej przedstawiamy typowe okresy gwarancji producenta dla produktów dostępnych w TechPC. Pamiętaj, że zawsze przysługuje Ci również rękojmia 24 miesiące.</p>
+
+            <h3>Procesory (CPU)</h3>
+            <ul>
+                <li><strong>AMD Ryzen:</strong> 36 miesięcy gwarancji producenta</li>
+                <li><strong>Intel Core:</strong> 36 miesięcy gwarancji producenta</li>
+            </ul>
+
+            <h3>Karty graficzne (GPU)</h3>
+            <ul>
+                <li><strong>NVIDIA GeForce:</strong> 24-36 miesięcy (w zależności od producenta karty - ASUS, MSI, Gigabyte)</li>
+                <li><strong>AMD Radeon:</strong> 24-36 miesięcy (w zależności od producenta karty)</li>
+            </ul>
+
+            <h3>Płyty główne</h3>
+            <ul>
+                <li><strong>ASUS, MSI, Gigabyte, ASRock:</strong> 36 miesięcy gwarancji producenta</li>
+                <li><strong>Seria Premium (ROG, AORUS):</strong> Często 36-48 miesięcy</li>
+            </ul>
+
+            <h3>Pamięci RAM</h3>
+            <ul>
+                <li><strong>Corsair, G.Skill, Kingston:</strong> Gwarancja dożywotnia (Lifetime Warranty)</li>
+                <li><strong>Inne marki:</strong> Zwykle 36 miesięcy</li>
+            </ul>
+
+            <h3>Dyski SSD/HDD</h3>
+            <ul>
+                <li><strong>Dyski SSD Samsung, WD, Crucial:</strong> 36-60 miesięcy</li>
+                <li><strong>Dyski HDD (Seagate, WD):</strong> 24-36 miesięcy</li>
+            </ul>
+
+            <h3>Zasilacze</h3>
+            <ul>
+                <li><strong>Corsair, Seasonic, be quiet!:</strong> 60-120 miesięcy (5-10 lat!)</li>
+                <li><strong>Budżetowe marki:</strong> 24-36 miesięcy</li>
+            </ul>
+
+            <div class="info-box">
+                <h4>📄 Jak sprawdzić okres gwarancji?</h4>
+                <p>Dokładny okres gwarancji dla konkretnego produktu znajdziesz:</p>
+                <ul>
+                    <li>W karcie produktu w naszym sklepie (zakładka "Gwarancja")</li>
+                    <li>W karcie gwarancyjnej dołączonej do produktu</li>
+                    <li>Na stronie producenta (po wpisaniu numeru seryjnego)</li>
+                    <li>Pytając nasz zespół: sklep@techpc.pl lub tel. +48 123 456 789</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- CO NIE JEST OBJĘTE GWARANCJĄ -->
+        <div class="warranty-section">
+            <h2>⛔ Czego nie obejmuje gwarancja?</h2>
+            
+            <p>Gwarancja producenta oraz rękojmia <strong>nie obejmują</strong> wad powstałych z przyczyn leżących po stronie kupującego. Najczęstsze wyłączenia:</p>
+
+            <div class="info-box error">
+                <h4>❌ Uszkodzenia mechaniczne:</h4>
+                <ul>
+                    <li>Upadki, uderzenia, zalania</li>
+                    <li>Zarysowania, pęknięcia obudowy</li>
+                    <li>Uszkodzenia portów, złączy (wynikające z siły)</li>
+                </ul>
+            </div>
+
+            <div class="info-box error">
+                <h4>❌ Nieprawidłowa eksploatacja:</h4>
+                <ul>
+                    <li>Overclocking poza parametry producenta (dla komponentów bez oficjalnej możliwości OC)</li>
+                    <li>Używanie nieodpowiednich zasilaczy</li>
+                    <li>Nieprzestrzeganie zaleceń producenta (np. chłodzenie, wentylacja)</li>
+                    <li>Modyfikacje sprzętowe (np. wymiana układu chłodzenia bez zachowania procedur)</li>
+                </ul>
+            </div>
+
+            <div class="info-box error">
+                <h4>❌ Ingerencja osób nieuprawnionych:</h4>
+                <ul>
+                    <li>Samodzielne próby naprawy</li>
+                    <li>Otwieranie produktu przez nieuprawniony serwis</li>
+                    <li>Usunięcie plomb gwarancyjnych</li>
+                </ul>
+            </div>
+
+            <div class="info-box error">
+                <h4>❌ Naturalne zużycie:</h4>
+                <ul>
+                    <li>Wentylatory po dłuższym okresie użytkowania (np. 3-5 lat)</li>
+                    <li>Degradacja baterii CMOS</li>
+                    <li>Zużycie past termoprzewodzących</li>
+                </ul>
+            </div>
+
+            <p><strong>Uwaga:</strong> W przypadku wątpliwości co do przyczyny usterki, serwis przeprowadza szczegółową diagnostykę. Jeśli uszkodzenie nie jest objęte gwarancją, zostaniesz poinformowany przed rozpoczęciem ewentualnej płatnej naprawy.</p>
+        </div>
+
+        <!-- DOKUMENTY DO POBRANIA -->
+        <div class="warranty-section">
+            <h2>📥 Dokumenty do pobrania</h2>
+            
+            <p>Udostępniamy gotowe formularze, które ułatwią Ci proces reklamacji i zwrotów.</p>
+
+            <div class="download-section">
+                <div class="download-card">
+                    <div class="download-card-icon">📄</div>
+                    <h4>Formularz reklamacyjny</h4>
+                    <p>Wypełnij i dołącz do przesyłki reklamacyjnej</p>
+                    <a href="#" class="btn-download" onclick="downloadForm('reklamacja'); return false;">Pobierz PDF</a>
+                </div>
+
+                <div class="download-card">
+                    <div class="download-card-icon">📋</div>
+                    <h4>Formularz odstąpienia</h4>
+                    <p>Do zwrotu produktu w ciągu 14 dni</p>
+                    <a href="#" class="btn-download" onclick="downloadForm('odstapienie'); return false;">Pobierz PDF</a>
+                </div>
+
+                <div class="download-card">
+                    <div class="download-card-icon">📜</div>
+                    <h4>Regulamin gwarancji</h4>
+                    <p>Pełny tekst regulaminu gwarancji TechPC</p>
+                    <a href="regulamin.html" class="btn-download">Przeczytaj online</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORMULARZ REKLAMACJI ONLINE -->
+        <div class="complaint-form" id="complaint-form">
+            <h2>✉️ Zgłoś reklamację online</h2>
+            <div id="formMessage" class="form-message"></div>
+            
+            <form id="complaintForm" onsubmit="handleComplaintForm(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">Imię:</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Nazwisko:</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Telefon:</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="orderNumber">Numer zamówienia:</label>
+                    <input type="text" id="orderNumber" placeholder="np. ORD-2025-00123" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productName">Nazwa produktu:</label>
+                    <input type="text" id="productName" placeholder="np. AMD Ryzen 7 5800X" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintType">Typ reklamacji:</label>
+                    <select id="complaintType" required>
+                        <option value="">-- Wybierz typ --</option>
+                        <option value="warranty">Gwarancja producenta</option>
+                        <option value="statutory">Rękojmia (odpowiedzialność sprzedawcy)</option>
+                        <option value="doa">DOA (Dead on Arrival - produkt nie działa od początku)</option>
+                        <option value="other">Inne</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintReason">Żądanie:</label>
+                    <select id="complaintReason" required>
+                        <option value="">-- Wybierz żądanie --</option>
+                        <option value="repair">Naprawa</option>
+                        <option value="replacement">Wymiana na nowy</option>
+                        <option value="refund">Zwrot pieniędzy</option>
+                        <option value="discount">Obniżenie ceny</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Szczegółowy opis wady:</label>
+                    <textarea id="description" placeholder="Opisz dokładnie, jaki problem występuje, kiedy się pojawił, w jakich okolicznościach..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" required style="width: auto; display: inline; margin-right: 10px;">
+                        Oświadczam, że podane przeze mnie dane są prawdziwe i akceptuję <a href="regulamin.html" style="color: #00d9ff;">Regulamin</a> oraz <a href="polityka-prywatnosci.html" style="color: #00d9ff;">Politykę Prywatności</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">Wyślij zgłoszenie reklamacyjne</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ==================== ZARZĄDZANIE UŻYTKOWNIKIEM ====================
+        function getUserData() {
+            return JSON.parse(localStorage.getItem('loggedInUser'));
+        }
+
+        function logoutUser() {
+            if (confirm('Czy na pewno chcesz się wylogować?')) {
+                localStorage.removeItem('loggedInUser');
+                alert('Wylogowano pomyślnie!');
+                setupTopbarLinks();
+            }
+        }
+
+        function setupTopbarLinks() {
+            const user = getUserData();
+            const topbarUserLinks = document.getElementById('topbarUserLinks');
+            const currentPage = window.location.pathname.split('/').pop();
+            
+            let linksHtml = '';
+            if (user) {
+                linksHtml = `
+                    <span style="color: #00d9ff; margin-right: 10px;">Witaj, ${user.username}!</span>
+                    <a href="konto.html" class="${currentPage === 'konto.html' ? 'active' : ''}">👤 Moje Konto</a>
+                    <a href="moje-zamowienia.html" class="${currentPage === 'moje-zamowienia.html' ? 'active' : ''}">📦 Moje zamówienia</a>
+                    <a href="#" onclick="logoutUser(); return false;">🚪 Wyloguj się</a>
+                    <a href="pomoc.html" class="${currentPage === 'pomoc.html' ? 'active' : ''}">❓ Pomoc</a>
+                `;
+            } else {
+                linksHtml = `
+                    <a href="log.html" class="${currentPage === 'log.html' ? 'active' : ''}">🔐 Zaloguj się</a>
+                    <a href="rejestracja.html" class="${currentPage === 'rejestracja.html' ? 'active' : ''}">📝 Zarejestruj się</a>
+                    <a href="moje-zamowienia.html" class="${currentPage === 'moje-zamowienia.html' ? 'active' : ''}">📦 Moje zamówienia</a>
+                    <a href="pomoc.html" class="${currentPage === 'pomoc.html' ? 'active' : ''}">❓ Pomoc</a>
+                `;
+            }
+            topbarUserLinks.innerHTML = linksHtml;
+        }
+
+        // ==================== KOSZYK ====================
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('techpc_cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        // ==================== WYSZUKIWANIE ====================
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            if (searchTerm) {
+                window.location.href = `index.html?search=${encodeURIComponent(searchTerm)}`;
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+
+        // ==================== PŁYNNE PRZEWIJANIE ====================
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // ==================== POBIERANIE FORMULARZY ====================
+        function downloadForm(formType) {
+            alert(`Funkcja pobierania formularza "${formType}" została wywołana.\n\nW pełnej wersji sklepu tutaj zostałby pobrany plik PDF z formularzem.`);
+            // W rzeczywistej implementacji tutaj byłby link do pliku PDF
+        }
+
+        // ==================== FORMULARZ REKLAMACJI ====================
+        function handleComplaintForm(event) {
+            event.preventDefault();
+
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                orderNumber: document.getElementById('orderNumber').value,
+                productName: document.getElementById('productName').value,
+                complaintType: document.getElementById('complaintType').value,
+                complaintReason: document.getElementById('complaintReason').value,
+                description: document.getElementById('description').value,
+                date: new Date().toISOString()
+            };
+
+            // Generuj numer RMA
+            const rmaNumber = 'RMA-' + Date.now().toString().slice(-8);
+
+            // Zapisz w localStorage
+            const complaints = JSON.parse(localStorage.getItem('techpc_complaints')) || [];
+            complaints.push({
+                ...formData,
+                rmaNumber: rmaNumber,
+                status: 'Oczekuje na realizację'
+            });
+            localStorage.setItem('techpc_complaints', JSON.stringify(complaints));
+
+            // Pokaż komunikat sukcesu
+            const formMessage = document.getElementById('formMessage');
+            formMessage.innerHTML = `
+                <strong>✅ Reklamacja została zgłoszona pomyślnie!</strong><br><br>
+                Numer Twojej sprawy: <strong>${rmaNumber}</strong><br>
+                Potwierdzenie wysłaliśmy na adres: <strong>${formData.email}</strong><br><br>
+                W ciągu 24h otrzymasz szczegółowe instrukcje dotyczące dalszych kroków.
+            `;
+            formMessage.className = 'form-message success';
+            formMessage.style.display = 'block';
+
+            // Wyczyść formularz
+            document.getElementById('complaintForm').reset();
+
+            // Przewiń do komunikatu
+            formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ==================== INICJALIZACJA ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            setupTopbarLinks();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1219 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPC - Regulamin Sklepu</title>
+    <style>
+        /* ==================== RESET I BAZOWE STYLE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* ==================== GÓRNY PASEK (TOPBAR) ==================== */
+        .topbar {
+            background: #1a1a1a;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .topbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+        }
+
+        .topbar-info {
+            color: #999;
+        }
+
+        .topbar-links {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .topbar-links a, .topbar-links span {
+            color: #999;
+            text-decoration: none;
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+
+        .topbar-links a:hover {
+            color: #00d9ff;
+        }
+        
+        .topbar-links .active {
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        .topbar-links .welcome-text {
+            color: #00d9ff;
+            font-weight: bold;
+        }
+
+        /* ==================== NAGŁÓWEK ==================== */
+        header {
+            background: #000000;
+            padding: 20px 0;
+            border-bottom: 2px solid #00d9ff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00d9ff;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 12px 20px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: #00d9ff;
+        }
+
+        .search-container button {
+            padding: 12px 30px;
+            background: #00d9ff;
+            color: #000;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .search-container button:hover {
+            background: #00b8d4;
+        }
+
+        .cart-icon {
+            background: #1a1a1a;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: 2px solid #333;
+            white-space: nowrap;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .cart-icon:hover {
+            background: #252525;
+            border-color: #00d9ff;
+            color: #00d9ff;
+        }
+
+        .cart-count {
+            background: #00d9ff;
+            color: #000;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-weight: bold;
+            margin-left: 10px;
+            font-size: 0.9em;
+        }
+
+        /* ==================== BREADCRUMB ==================== */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .breadcrumb a {
+            color: #00d9ff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #00b8d4;
+        }
+
+        /* ==================== BANNER ==================== */
+        .page-banner {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #00d9ff;
+            border-radius: 15px;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .page-banner h1 {
+            font-size: 3em;
+            color: #00d9ff;
+            margin-bottom: 15px;
+        }
+
+        .page-banner p {
+            font-size: 1.1em;
+            color: #999;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .page-banner .last-update {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* ==================== GŁÓWNA ZAWARTOŚĆ ==================== */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+        }
+
+        /* ==================== SPIS TREŚCI (SIDEBAR) ==================== */
+        .table-of-contents {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .toc-card {
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .toc-card h3 {
+            color: #00d9ff;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 10px;
+        }
+
+        .toc-list a {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.95em;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .toc-list a:hover {
+            color: #00d9ff;
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .toc-list a.active {
+            color: #00d9ff;
+            background: rgba(0, 217, 255, 0.15);
+            border-left: 3px solid #00d9ff;
+        }
+
+        /* ==================== REGULAMIN ==================== */
+        .regulations-content {
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 15px;
+            padding: 40px;
+        }
+
+        .regulation-section {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .regulation-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .regulation-section h2 {
+            color: #00d9ff;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .regulation-section h2 .section-number {
+            background: #00d9ff;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .regulation-section h3 {
+            color: #fff;
+            font-size: 1.2em;
+            margin: 25px 0 15px;
+        }
+
+        .regulation-section p {
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .regulation-section ul,
+        .regulation-section ol {
+            color: #ccc;
+            line-height: 1.8;
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .regulation-section li {
+            margin-bottom: 10px;
+        }
+
+        .regulation-section li ul,
+        .regulation-section li ol {
+            margin-top: 10px;
+        }
+
+        .highlight-box {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid #00d9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box.warning {
+            background: rgba(255, 170, 0, 0.1);
+            border-color: #ffaa00;
+        }
+
+        .highlight-box.info {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: #00d9ff;
+        }
+
+        .highlight-box h4 {
+            color: #00d9ff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .highlight-box.warning h4 {
+            color: #ffaa00;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+        }
+
+        .definition-list {
+            margin: 20px 0;
+        }
+
+        .definition-item {
+            background: #0a0a0a;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+        }
+
+        .definition-item strong {
+            color: #00d9ff;
+        }
+
+        .contact-info-box {
+            background: #0a0a0a;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .contact-info-box h4 {
+            color: #00d9ff;
+            margin-bottom: 15px;
+        }
+
+        .contact-info-box p {
+            margin-bottom: 8px;
+        }
+
+        /* ==================== PRZYCISKI AKCJI ==================== */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: #00d9ff;
+            color: #000;
+            border: none;
+        }
+
+        .action-btn.primary:hover {
+            background: #00b8d4;
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            color: #00d9ff;
+            border: 2px solid #00d9ff;
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        /* ==================== STOPKA ==================== */
+        .footer {
+            background: #1a1a1a;
+            padding: 40px 20px;
+            margin-top: 50px;
+            border-top: 2px solid #333;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            color: #00d9ff;
+            margin-bottom: 15px;
+        }
+
+        .footer-section p {
+            color: #999;
+            line-height: 1.6;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #999;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #00d9ff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #666;
+        }
+
+        /* ==================== POWIADOMIENIA ==================== */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: #00d9ff;
+            color: #000;
+            padding: 20px 30px;
+            border-radius: 10px;
+            display: none;
+            z-index: 3000;
+            font-weight: bold;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ==================== RESPONSYWNOŚĆ ==================== */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .table-of-contents {
+                position: static;
+            }
+
+            .toc-card {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .topbar-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .topbar-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .topbar-links a, .topbar-links span {
+                margin: 5px 10px;
+            }
+
+            .page-banner h1 {
+                font-size: 2em;
+            }
+
+            .regulations-content {
+                padding: 25px;
+            }
+
+            .regulation-section h2 {
+                font-size: 1.3em;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ==================== DRUKOWANIE ==================== */
+        @media print {
+            .topbar, header, .breadcrumb, .table-of-contents, .footer, .action-buttons {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .main-content {
+                display: block;
+                max-width: 100%;
+            }
+
+            .regulations-content {
+                background: white;
+                border: none;
+                padding: 0;
+            }
+
+            .regulation-section {
+                page-break-inside: avoid;
+            }
+
+            .regulation-section h2 {
+                color: black;
+            }
+
+            .regulation-section p,
+            .regulation-section li {
+                color: black;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- GÓRNY PASEK -->
+    <div class="topbar">
+        <div class="topbar-content">
+            <div class="topbar-info">📞 Kontakt: +48 123 456 789 | 📧 sklep@techpc.pl</div>
+            <div class="topbar-links" id="topbarUserLinks">
+                <!-- Linki renderowane dynamicznie przez JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- NAGŁÓWEK -->
+    <header>
+        <div class="header-content">
+            <a href="g.html" class="logo">⚡ TechPC</a>
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Szukaj produktów...">
+                    <button onclick="searchProducts()">🔍</button>
+                </div>
+            </div>
+            <a href="koszyk.html" class="cart-icon">
+                🛒 Koszyk <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="g.html">Strona główna</a> / <strong>Regulamin</strong>
+    </div>
+
+    <!-- BANNER -->
+    <div class="page-banner">
+        <h1>📋 Regulamin Sklepu</h1>
+        <p>Zapoznaj się z regulaminem sklepu internetowego TechPC. Składając zamówienie, akceptujesz poniższe warunki.</p>
+        <div class="last-update">Ostatnia aktualizacja: 1 stycznia 2024 r.</div>
+    </div>
+
+    <!-- GŁÓWNA ZAWARTOŚĆ -->
+    <div class="main-content">
+        
+        <!-- SPIS TREŚCI -->
+        <aside class="table-of-contents">
+            <div class="toc-card">
+                <h3>📑 Spis treści</h3>
+                <ul class="toc-list">
+                    <li><a href="#section1" class="active">§1. Postanowienia ogólne</a></li>
+                    <li><a href="#section2">§2. Definicje</a></li>
+                    <li><a href="#section3">§3. Zasady korzystania</a></li>
+                    <li><a href="#section4">§4. Składanie zamówień</a></li>
+                    <li><a href="#section5">§5. Ceny i płatności</a></li>
+                    <li><a href="#section6">§6. Dostawa</a></li>
+                    <li><a href="#section7">§7. Prawo odstąpienia</a></li>
+                    <li><a href="#section8">§8. Reklamacje</a></li>
+                    <li><a href="#section9">§9. Gwarancja</a></li>
+                    <li><a href="#section10">§10. Ochrona danych</a></li>
+                    <li><a href="#section11">§11. Postanowienia końcowe</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- TREŚĆ REGULAMINU -->
+        <div class="regulations-content">
+            
+            <!-- §1. POSTANOWIENIA OGÓLNE -->
+            <section class="regulation-section" id="section1">
+                <h2><span class="section-number">1</span> Postanowienia ogólne</h2>
+                
+                <p>1.1. Niniejszy Regulamin określa zasady korzystania ze sklepu internetowego TechPC, dostępnego pod adresem www.techpc.pl, oraz warunki zawierania umów sprzedaży za pośrednictwem tego sklepu.</p>
+                
+                <p>1.2. Właścicielem i operatorem sklepu internetowego TechPC jest:</p>
+                
+                <div class="contact-info-box">
+                    <h4>📍 Dane firmy</h4>
+                    <p><strong>TechPC Sp. z o.o.</strong></p>
+                    <p>ul. Komputerowa 1, 00-001 Warszawa</p>
+                    <p>NIP: 123-456-78-90</p>
+                    <p>REGON: 123456789</p>
+                    <p>KRS: 0000123456</p>
+                    <p>📧 Email: sklep@techpc.pl</p>
+                    <p>📞 Telefon: +48 123 456 789</p>
+                </div>
+
+                <p>1.3. Korzystanie ze sklepu internetowego jest możliwe pod warunkiem spełnienia przez system teleinformatyczny Klienta następujących minimalnych wymagań technicznych:</p>
+                <ul>
+                    <li>Przeglądarka internetowa: Chrome, Firefox, Safari, Edge (w aktualnej wersji)</li>
+                    <li>Włączona obsługa JavaScript</li>
+                    <li>Włączona obsługa plików cookies</li>
+                    <li>Aktywne połączenie z Internetem</li>
+                </ul>
+
+                <p>1.4. Klient zobowiązany jest do korzystania ze sklepu w sposób zgodny z prawem i dobrymi obyczajami, mając na uwadze poszanowanie dóbr osobistych oraz praw własności intelektualnej osób trzecich.</p>
+            </section>
+
+            <!-- §2. DEFINICJE -->
+            <section class="regulation-section" id="section2">
+                <h2><span class="section-number">2</span> Definicje</h2>
+                
+                <p>Użyte w niniejszym Regulaminie pojęcia oznaczają:</p>
+
+                <div class="definition-list">
+                    <div class="definition-item">
+                        <strong>Sprzedawca</strong> – TechPC Sp. z o.o. z siedzibą w Warszawie, prowadzący sklep internetowy TechPC.
+                    </div>
+                    <div class="definition-item">
+                        <strong>Klient</strong> – osoba fizyczna posiadająca pełną zdolność do czynności prawnych, osoba prawna lub jednostka organizacyjna nieposiadająca osobowości prawnej, która dokonuje zakupów w sklepie.
+                    </div>
+                    <div class="definition-item">
+                        <strong>Konsument</strong> – Klient będący osobą fizyczną dokonującą zakupu niezwiązanego bezpośrednio z jej działalnością gospodarczą lub zawodową.
+                    </div>
+                    <div class="definition-item">
+                        <strong>Sklep</strong> – sklep internetowy TechPC prowadzony pod adresem www.techpc.pl.
+                    </div>
+                    <div class="definition-item">
+                        <strong>Towar</strong> – produkt oferowany do sprzedaży w sklepie internetowym.
+                    </div>
+                    <div class="definition-item">
+                        <strong>Zamówienie</strong> – oświadczenie woli Klienta zmierzające do zawarcia umowy sprzedaży Towarów ze Sprzedawcą.
+                    </div>
+                    <div class="definition-item">
+                        <strong>Umowa sprzedaży</strong> – umowa zawarta pomiędzy Sprzedawcą a Klientem za pośrednictwem sklepu internetowego.
+                    </div>
+                    <div class="definition-item">
+                        <strong>Konto</strong> – indywidualne konto Klienta w sklepie, umożliwiające korzystanie z dodatkowych funkcji.
+                    </div>
+                    <div class="definition-item">
+                        <strong>Dzień roboczy</strong> – każdy dzień od poniedziałku do piątku, z wyłączeniem dni ustawowo wolnych od pracy.
+                    </div>
+                </div>
+            </section>
+
+            <!-- §3. ZASADY KORZYSTANIA -->
+            <section class="regulation-section" id="section3">
+                <h2><span class="section-number">3</span> Zasady korzystania ze sklepu</h2>
+                
+                <h3>3.1. Rejestracja konta</h3>
+                <p>Klient może dokonać zakupu bez rejestracji (jako gość) lub po utworzeniu konta w sklepie. Rejestracja jest bezpłatna i dobrowolna.</p>
+                
+                <p>Podczas rejestracji Klient zobowiązany jest do:</p>
+                <ul>
+                    <li>Podania prawdziwych i aktualnych danych osobowych</li>
+                    <li>Zachowania poufności hasła dostępu do konta</li>
+                    <li>Nieudostępniania konta osobom trzecim</li>
+                </ul>
+
+                <h3>3.2. Korzyści z posiadania konta</h3>
+                <p>Zarejestrowany Klient ma dostęp do:</p>
+                <ul>
+                    <li>Historii zamówień</li>
+                    <li>Śledzenia statusu zamówień</li>
+                    <li>Zapisanych adresów dostawy</li>
+                    <li>Listy ulubionych produktów</li>
+                    <li>Ekskluzywnych promocji i rabatów</li>
+                </ul>
+
+                <h3>3.3. Usunięcie konta</h3>
+                <p>Klient może w każdej chwili zażądać usunięcia swojego konta poprzez kontakt ze Sprzedawcą. Usunięcie konta nie wpływa na realizację złożonych wcześniej zamówień.</p>
+            </section>
+
+            <!-- §4. SKŁADANIE ZAMÓWIEŃ -->
+            <section class="regulation-section" id="section4">
+                <h2><span class="section-number">4</span> Składanie zamówień</h2>
+                
+                <p>4.1. Zamówienia można składać 24 godziny na dobę, 7 dni w tygodniu przez cały rok.</p>
+
+                <p>4.2. W celu złożenia zamówienia należy:</p>
+                <ol>
+                    <li>Wybrać Towar i dodać go do koszyka</li>
+                    <li>Przejść do koszyka i kliknąć "Przejdź do kasy"</li>
+                    <li>Wypełnić formularz zamówienia (dane do dostawy, metoda płatności)</li>
+                    <li>Zaakceptować Regulamin sklepu</li>
+                    <li>Potwierdzić zamówienie klikając "Zamawiam z obowiązkiem zapłaty"</li>
+                </ol>
+
+                <p>4.3. Po złożeniu zamówienia Klient otrzymuje na podany adres email potwierdzenie przyjęcia zamówienia wraz z jego numerem i szczegółami.</p>
+
+                <div class="highlight-box info">
+                    <h4>ℹ️ Ważne</h4>
+                    <p>Umowa sprzedaży zostaje zawarta z chwilą otrzymania przez Klienta potwierdzenia przyjęcia zamówienia.</p>
+                </div>
+
+                <p>4.4. Sprzedawca zastrzega sobie prawo do odmowy realizacji zamówienia w przypadku:</p>
+                <ul>
+                    <li>Podania nieprawdziwych lub niepełnych danych</li>
+                    <li>Braku możliwości kontaktu z Klientem</li>
+                    <li>Braku dostępności zamówionego Towaru</li>
+                    <li>Wystąpienia błędu cenowego na stronie</li>
+                </ul>
+            </section>
+
+            <!-- §5. CENY I PŁATNOŚCI -->
+            <section class="regulation-section" id="section5">
+                <h2><span class="section-number">5</span> Ceny i płatności</h2>
+                
+                <h3>5.1. Ceny</h3>
+                <p>Wszystkie ceny podane w sklepie są cenami brutto (zawierają podatek VAT) i wyrażone są w złotych polskich (PLN).</p>
+                
+                <p>Cena podana przy każdym Towarze jest wiążąca w chwili złożenia zamówienia przez Klienta.</p>
+
+                <p>Cena Towaru nie zawiera kosztów dostawy, które są doliczane do wartości zamówienia i widoczne przed finalizacją zakupu.</p>
+
+                <h3>5.2. Dostępne metody płatności</h3>
+                <ul>
+                    <li><strong>Przelew online</strong> – PayU, Przelewy24, Tpay</li>
+                    <li><strong>BLIK</strong> – szybka płatność kodem</li>
+                    <li><strong>Karta płatnicza</strong> – Visa, Mastercard</li>
+                    <li><strong>Płatność przy odbiorze</strong> – gotówka lub karta (dodatkowo 5 zł)</li>
+                    <li><strong>Przelew tradycyjny</strong> – na konto bankowe</li>
+                    <li><strong>Raty 0%</strong> – przez PayU Raty</li>
+                </ul>
+
+                <div class="contact-info-box">
+                    <h4>🏦 Dane do przelewu</h4>
+                    <p><strong>TechPC Sp. z o.o.</strong></p>
+                    <p>Bank: PKO BP</p>
+                    <p>Numer konta: 12 3456 7890 1234 5678 9012 3456</p>
+                    <p>Tytuł: Zamówienie nr [numer zamówienia]</p>
+                </div>
+
+                <h3>5.3. Terminy płatności</h3>
+                <p>W przypadku wyboru płatności przelewem tradycyjnym, Klient zobowiązany jest do dokonania wpłaty w ciągu 7 dni roboczych od złożenia zamówienia. Po tym terminie zamówienie może zostać anulowane.</p>
+            </section>
+
+            <!-- §6. DOSTAWA -->
+            <section class="regulation-section" id="section6">
+                <h2><span class="section-number">6</span> Dostawa</h2>
+                
+                <h3>6.1. Metody dostawy</h3>
+                <ul>
+                    <li><strong>Kurier DPD</strong> – 15,99 zł (1-2 dni robocze)</li>
+                    <li><strong>Kurier InPost</strong> – 14,99 zł (1-2 dni robocze)</li>
+                    <li><strong>Paczkomat InPost</strong> – 12,99 zł (1-2 dni robocze)</li>
+                    <li><strong>Odbiór osobisty</strong> – 0 zł (Warszawa, ul. Komputerowa 1)</li>
+                </ul>
+
+                <div class="highlight-box info">
+                    <h4>🚚 Darmowa dostawa</h4>
+                    <p>Przy zamówieniach o wartości powyżej 500 zł dostawa kurierem jest bezpłatna!</p>
+                </div>
+
+                <h3>6.2. Czas realizacji</h3>
+                <p>Zamówienia złożone i opłacone do godziny 14:00 w dni robocze są wysyłane tego samego dnia.</p>
+                
+                <p>Czas dostawy liczony jest od momentu wysłania przesyłki i wynosi od 1 do 3 dni roboczych w zależności od wybranej metody dostawy.</p>
+
+                <h3>6.3. Odbiór przesyłki</h3>
+                <p>Przy odbiorze przesyłki Klient powinien sprawdzić, czy opakowanie nie jest uszkodzone. W przypadku stwierdzenia uszkodzeń, należy sporządzić protokół szkody w obecności kuriera.</p>
+
+                <div class="highlight-box warning">
+                    <h4>⚠️ Uwaga</h4>
+                    <p>Brak protokołu szkody może utrudnić proces reklamacyjny w przypadku uszkodzenia Towaru podczas transportu.</p>
+                </div>
+            </section>
+
+            <!-- §7. PRAWO ODSTĄPIENIA OD UMOWY -->
+            <section class="regulation-section" id="section7">
+                <h2><span class="section-number">7</span> Prawo odstąpienia od umowy</h2>
+                
+                <div class="highlight-box info">
+                    <h4>📅 14 dni na zwrot</h4>
+                    <p>Konsument ma prawo odstąpić od umowy w terminie 14 dni bez podania przyczyny.</p>
+                </div>
+
+                <h3>7.1. Termin odstąpienia</h3>
+                <p>Termin do odstąpienia od umowy wygasa po upływie 14 dni od dnia, w którym Konsument wszedł w posiadanie Towaru lub w którym osoba trzecia inna niż przewoźnik, wskazana przez Konsumenta, weszła w posiadanie Towaru.</p>
+
+                <h3>7.2. Sposób odstąpienia</h3>
+                <p>Aby skorzystać z prawa odstąpienia od umowy, Konsument musi poinformować Sprzedawcę o swojej decyzji w drodze jednoznacznego oświadczenia (np. pismo wysłane pocztą, faksem lub pocztą elektroniczną).</p>
+
+                <p>Konsument może skorzystać z formularza odstąpienia od umowy, jednak nie jest to obowiązkowe.</p>
+
+                <h3>7.3. Skutki odstąpienia</h3>
+                <p>W przypadku odstąpienia od umowy Sprzedawca zwraca Konsumentowi wszystkie otrzymane płatności, w tym koszty dostawy (z wyjątkiem dodatkowych kosztów wynikających z wybranego sposobu dostawy innego niż najtańszy zwykły sposób dostawy oferowany przez Sprzedawcę), niezwłocznie, a w każdym przypadku nie później niż 14 dni od dnia, w którym Sprzedawca został poinformowany o decyzji Konsumenta o wykonaniu prawa odstąpienia od umowy.</p>
+
+                <h3>7.4. Zwrot Towaru</h3>
+                <p>Konsument powinien odesłać lub przekazać Towar Sprzedawcy niezwłocznie, a w każdym razie nie później niż 14 dni od dnia, w którym poinformował Sprzedawcę o odstąpieniu od umowy.</p>
+
+                <p>Konsument ponosi bezpośrednie koszty zwrotu Towaru.</p>
+
+                <h3>7.5. Wyłączenia prawa odstąpienia</h3>
+                <p>Prawo odstąpienia od umowy nie przysługuje Konsumentowi w odniesieniu do umów:</p>
+                <ul>
+                    <li>W której przedmiotem świadczenia jest Towar nieprefabrykowany, wyprodukowany według specyfikacji Konsumenta lub służący zaspokojeniu jego zindywidualizowanych potrzeb</li>
+                    <li>W której przedmiotem świadczenia jest Towar dostarczany w zapieczętowanym opakowaniu, którego po otwarciu opakowania nie można zwrócić ze względu na ochronę zdrowia lub ze względów higienicznych, jeżeli opakowanie zostało otwarte po dostarczeniu</li>
+                    <li>W której przedmiotem świadczenia są nagrania dźwiękowe lub wizualne albo programy komputerowe dostarczane w zapieczętowanym opakowaniu, jeżeli opakowanie zostało otwarte po dostarczeniu</li>
+                </ul>
+            </section>
+
+            <!-- §8. REKLAMACJE -->
+            <section class="regulation-section" id="section8">
+                <h2><span class="section-number">8</span> Reklamacje</h2>
+                
+                <h3>8.1. Podstawa reklamacji</h3>
+                <p>Sprzedawca jest zobowiązany dostarczyć Towar wolny od wad. Sprzedawca odpowiada wobec Klienta za wady fizyczne i prawne Towaru (rękojmia).</p>
+
+                <h3>8.2. Zgłoszenie reklamacji</h3>
+                <p>Reklamację można złożyć:</p>
+                <ul>
+                    <li>Za pośrednictwem formularza reklamacyjnego na stronie</li>
+                    <li>Drogą elektroniczną na adres: reklamacje@techpc.pl</li>
+                    <li>Pisemnie na adres siedziby Sprzedawcy</li>
+                    <li>Osobiście w punkcie obsługi klienta</li>
+                </ul>
+
+                <h3>8.3. Treść reklamacji</h3>
+                <p>Zgłoszenie reklamacyjne powinno zawierać:</p>
+                <ul>
+                    <li>Imię i nazwisko Klienta</li>
+                    <li>Adres do korespondencji</li>
+                    <li>Numer zamówienia lub dowód zakupu</li>
+                    <li>Opis wady i okoliczności jej wystąpienia</li>
+                    <li>Żądanie Klienta (naprawa, wymiana, obniżenie ceny, zwrot pieniędzy)</li>
+                </ul>
+
+                <h3>8.4. Termin rozpatrzenia</h3>
+                <p>Sprzedawca rozpatrzy reklamację w terminie 14 dni kalendarzowych od dnia jej otrzymania. O wyniku reklamacji Klient zostanie poinformowany drogą elektroniczną lub pisemnie.</p>
+
+                <div class="highlight-box info">
+                    <h4>ℹ️ Brak odpowiedzi</h4>
+                    <p>Jeżeli Sprzedawca nie ustosunkuje się do reklamacji w terminie 14 dni, uważa się, że uznał reklamację.</p>
+                </div>
+            </section>
+
+            <!-- §9. GWARANCJA -->
+            <section class="regulation-section" id="section9">
+                <h2><span class="section-number">9</span> Gwarancja</h2>
+                
+                <p>9.1. Towary sprzedawane przez Sprzedawcę mogą być objęte gwarancją udzieloną przez producenta lub dystrybutora.</p>
+
+                <p>9.2. Informacja o gwarancji i jej warunkach jest podana w opisie każdego Towaru oraz w karcie gwarancyjnej dołączonej do produktu.</p>
+
+                <p>9.3. Okres gwarancji na podzespoły komputerowe wynosi zazwyczaj:</p>
+                <ul>
+                    <li><strong>Procesory</strong> – 36 miesięcy</li>
+                    <li><strong>Karty graficzne</strong> – 24-36 miesięcy</li>
+                    <li><strong>Płyty główne</strong> – 36 miesięcy</li>
+                    <li><strong>Pamięć RAM</strong> – dożywotnia gwarancja producenta</li>
+                    <li><strong>Dyski SSD</strong> – 36-60 miesięcy</li>
+                    <li><strong>Zasilacze</strong> – 24-120 miesięcy (w zależności od modelu)</li>
+                </ul>
+
+                <p>9.4. Gwarancja nie wyłącza, nie ogranicza ani nie zawiesza uprawnień Konsumenta wynikających z przepisów o rękojmi za wady rzeczy sprzedanej.</p>
+            </section>
+
+            <!-- §10. OCHRONA DANYCH OSOBOWYCH -->
+            <section class="regulation-section" id="section10">
+                <h2><span class="section-number">10</span> Ochrona danych osobowych</h2>
+                
+                <p>10.1. Administratorem danych osobowych Klientów jest TechPC Sp. z o.o. z siedzibą w Warszawie.</p>
+
+                <p>10.2. Dane osobowe Klientów przetwarzane są zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. (RODO) oraz ustawą o ochronie danych osobowych.</p>
+
+                <p>10.3. Dane osobowe są przetwarzane w celu:</p>
+                <ul>
+                    <li>Realizacji zamówień</li>
+                    <li>Obsługi reklamacji i zwrotów</li>
+                    <li>Prowadzenia konta użytkownika</li>
+                    <li>Wysyłki newslettera (za zgodą)</li>
+                    <li>Celów statystycznych i analitycznych</li>
+                </ul>
+
+                <p>10.4. Klient ma prawo do:</p>
+                <ul>
+                    <li>Dostępu do swoich danych</li>
+                    <li>Sprostowania danych</li>
+                    <li>Usunięcia danych ("prawo do bycia zapomnianym")</li>
+                    <li>Ograniczenia przetwarzania</li>
+                    <li>Przenoszenia danych</li>
+                    <li>Wniesienia sprzeciwu wobec przetwarzania</li>
+                    <li>Cofnięcia zgody w dowolnym momencie</li>
+                </ul>
+
+                <p>10.5. Szczegółowe informacje dotyczące ochrony danych osobowych znajdują się w <a href="polityka-prywatnosci.html" style="color: #00d9ff;">Polityce Prywatności</a>.</p>
+            </section>
+
+            <!-- §11. POSTANOWIENIA KOŃCOWE -->
+            <section class="regulation-section" id="section11">
+                <h2><span class="section-number">11</span> Postanowienia końcowe</h2>
+                
+                <p>11.1. Sprzedawca zastrzega sobie prawo do zmiany niniejszego Regulaminu z ważnych przyczyn, takich jak:</p>
+                <ul>
+                    <li>Zmiany przepisów prawa</li>
+                    <li>Zmiany sposobów płatności i dostaw</li>
+                    <li>Zmiany zakresu lub formy świadczonych usług</li>
+                </ul>
+
+                <p>11.2. O każdej zmianie Regulaminu Klienci posiadający konto zostaną poinformowani drogą mailową z 14-dniowym wyprzedzeniem.</p>
+
+                <p>11.3. W sprawach nieuregulowanych niniejszym Regulaminem zastosowanie mają przepisy prawa polskiego, w szczególności Kodeksu cywilnego oraz ustawy o prawach konsumenta.</p>
+
+                <p>11.4. Ewentualne spory pomiędzy Sprzedawcą a Klientem będącym Konsumentem mogą być rozstrzygane polubownie poprzez:</p>
+                <ul>
+                    <li>Mediację prowadzoną przez wojewódzkie inspektoraty Inspekcji Handlowej</li>
+                    <li>Stałe polubowne sądy konsumenckie przy wojewódzkich inspektoratach Inspekcji Handlowej</li>
+                    <li>Platformę ODR dostępną pod adresem: <a href="https://ec.europa.eu/consumers/odr" target="_blank" style="color: #00d9ff;">ec.europa.eu/consumers/odr</a></li>
+                </ul>
+
+                <p>11.5. W przypadku braku możliwości polubownego rozwiązania sporu, sądem właściwym będzie sąd właściwy miejscowo według przepisów Kodeksu postępowania cywilnego.</p>
+
+                <p>11.6. Niniejszy Regulamin wchodzi w życie z dniem 1 stycznia 2024 roku.</p>
+
+                <div class="contact-info-box">
+                    <h4>📞 Kontakt w sprawie Regulaminu</h4>
+                    <p>W przypadku pytań dotyczących Regulaminu prosimy o kontakt:</p>
+                    <p>📧 Email: regulamin@techpc.pl</p>
+                    <p>📞 Telefon: +48 123 456 789</p>
+                </div>
+            </section>
+
+            <!-- PRZYCISKI AKCJI -->
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="printRegulations()">
+                    🖨️ Drukuj regulamin
+                </button>
+                <a href="regulamin.pdf" class="action-btn secondary" download>
+                    📥 Pobierz PDF
+                </a>
+                <a href="pomoc.html" class="action-btn secondary">
+                    ❓ Masz pytania?
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- STOPKA -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>⚡ TechPC</h3>
+                <p>Twój zaufany sklep z podzespołami komputerowymi. Oferujemy najlepszy sprzęt w konkurencyjnych cenach.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kategorie</h3>
+                <a href="ryzen5.html">AMD Ryzen 5</a>
+                <a href="ryzen7.html">AMD Ryzen 7</a>
+                <a href="ryzen9.html">AMD Ryzen 9</a>
+                <a href="intel-i3.html">Intel Core i3</a>
+                <a href="intel-i5.html">Intel Core i5</a>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <a href="regulamin.html" class="active">Regulamin</a>
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="dostawa.html">Dostawa i płatności</a>
+                <a href="zwroty.html">Zwroty i reklamacje</a>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <p>📞 +48 123 456 789</p>
+                <p>📧 sklep@techpc.pl</p>
+                <p>📍 ul. Komputerowa 1, Warszawa</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 TechPC. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <!-- POWIADOMIENIE -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // ==================== KOSZYK ====================
+        let cart = JSON.parse(localStorage.getItem('techpc_cart')) || [];
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        // ==================== WYSZUKIWANIE ====================
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value;
+            if (searchTerm.trim()) {
+                window.location.href = `g.html?search=${encodeURIComponent(searchTerm)}`;
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
+        });
+
+        // ==================== DRUKOWANIE ====================
+        function printRegulations() {
+            window.print();
+        }
+
+        // ==================== SPIS TREŚCI - AKTYWNY LINK ====================
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('.regulation-section');
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // ==================== PŁYNNE SCROLLOWANIE ====================
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 100;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ==================== POWIADOMIENIA ====================
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => { notification.style.display = 'none'; }, 4000);
+        }
+
+        // ==================== ZARZĄDZANIE UŻYTKOWNIKIEM ====================
+        function getUserData() {
+            return JSON.parse(localStorage.getItem('loggedInUser'));
+        }
+
+        function logoutUser() {
+            if (confirm('Czy na pewno chcesz się wylogować?')) {
+                localStorage.removeItem('loggedInUser');
+                showNotification('Wylogowano pomyślnie!');
+                setupTopbarLinks();
+            }
+        }
+
+        function setupTopbarLinks() {
+            const user = getUserData();
+            const topbarUserLinks = document.getElementById('topbarUserLinks');
+            const currentPage = window.location.pathname.split('/').pop();
+            
+            let linksHtml = '';
+            
+            if (user) {
+                linksHtml = `
+                    <span class="welcome-text">Witaj, ${user.username || user.email}!</span>
+                    <a href="konto.html" class="${currentPage === 'konto.html' ? 'active' : ''}">👤 Moje Konto</a>
+                    <a href="moje-zamowienia.html" class="${currentPage === 'moje-zamowienia.html' ? 'active' : ''}">📦 Moje zamówienia</a>
+                    <a href="ulubione.html" class="${currentPage === 'ulubione.html' ? 'active' : ''}">❤️ Ulubione</a>
+                    <a href="#" onclick="logoutUser(); return false;">🚪 Wyloguj się</a>
+                    <a href="pomoc.html" class="${currentPage === 'pomoc.html' ? 'active' : ''}">❓ Pomoc</a>
+                `;
+            } else {
+                linksHtml = `
+                    <a href="logowanie.html" class="${currentPage === 'logowanie.html' ? 'active' : ''}">🔐 Zaloguj się</a>
+                    <a href="rejestracja.html" class="${currentPage === 'rejestracja.html' ? 'active' : ''}">📝 Zarejestruj się</a>
+                    <a href="moje-zamowienia.html" class="${currentPage === 'moje-zamowienia.html' ? 'active' : ''}">📦 Śledzenie zamówienia</a>
+                    <a href="pomoc.html" class="${currentPage === 'pomoc.html' ? 'active' : ''}">❓ Pomoc</a>
+                `;
+            }
+            
+            topbarUserLinks.innerHTML = linksHtml;
+        }
+
+        // ==================== INICJALIZACJA ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            setupTopbarLinks();
+            updateActiveSection();
+        });
+
+        window.addEventListener('scroll', updateActiveSection);
+    </script>
+</body>
+</html>

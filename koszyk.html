@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPC - Koszyk</title>
+    <link rel="stylesheet" href="koszyk.css">
+</head>
+<body>
+    <!-- GÓRNY PASEK -->
+    <div class="topbar">
+        <div class="topbar-content">
+            <div class="topbar-info">📞 Kontakt: +48 123 456 789 | 📧 sklep@techpc.pl</div>
+            <div class="topbar-links">
+                <a href="log.html">🔐 Zaloguj się</a>
+                <a href="zamówienia.html">📦 Moje zamówienia</a>
+                <a href="pomoc.html">❓ Pomoc</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAGŁÓWEK -->
+    <header>
+        <div class="header-content">
+            <a href="g.html" class="logo">⚡ TechPC</a>
+            <div style="flex: 1;"></div> <!-- Puste miejsce dla wyrównania -->
+            <div class="cart-icon" style="background: #00d9ff; color: #000; font-weight: bold;">
+                🛒 Koszyk <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="g.html">Strona główna</a> / <strong>Koszyk</strong>
+    </div>
+
+    <!-- SEKCJA KOSZYKA -->
+    <div class="cart-section">
+        <h2 class="section-title">Twój koszyk</h2>
+        <div class="cart-items-container" id="cartItems">
+            <div class="empty-cart">
+                <div class="empty-cart-icon">🛒</div>
+                <div class="empty-cart-message">Twój koszyk jest pusty</div>
+                <a href="g.html" class="btn-continue">Kontynuuj zakupy</a>
+            </div>
+        </div>
+        <div class="cart-total" id="cartTotal"></div>
+        <div class="cart-actions">
+            <a href="g.html" class="btn-continue">Kontynuuj zakupy</a>
+            <button class="checkout-btn" id="checkoutBtn" disabled>Przejdź do płatności</button>
+        </div>
+    </div>
+
+    <!-- POWIADOMIENIE -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // ==================== ZARZĄDZANIE KOSZYKIEM ====================
+        let cart = []; // PUSTY KOSZYK
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        function updateCheckoutButton() {
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            checkoutBtn.disabled = cart.length === 0;
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <div class="empty-cart-message">Twój koszyk jest pusty</div>
+                        <a href="#" class="btn-continue">Kontynuuj zakupy</a>
+                    </div>
+                `;
+                cartTotal.textContent = '';
+                updateCheckoutButton();
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}" 
+                                 onerror="this.src='https://via.placeholder.com/80?text=Brak+zdjęcia'">
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${item.price.toFixed(2)} zł</div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                                <input type="number" class="quantity-input" value="${item.quantity}" min="1" 
+                                       onchange="updateQuantityInput(${index}, this.value)">
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${index})">Usuń</button>
+                    </div>
+                `;
+            });
+
+            cartItems.innerHTML = html;
+            cartTotal.textContent = `Suma całkowita: ${total.toFixed(2)} zł`;
+            updateCheckoutButton();
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity < 1) {
+                cart[index].quantity = 1;
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function updateQuantityInput(index, value) {
+            const quantity = parseInt(value) || 1;
+            if (quantity < 1) {
+                cart[index].quantity = 1;
+            } else {
+                cart[index].quantity = quantity;
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCart();
+            showNotification('Produkt usunięty z koszyka');
+        }
+
+        function handleCheckout() {
+            if (cart.length === 0) {
+                alert('Koszyk jest pusty!');
+                return;
+            }
+            alert('Przekierowanie do płatności...');
+            // Tutaj w prawdziwym sklepie byłoby przekierowanie do płatności
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // ==================== INICJALIZACJA ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Czyścimy koszyk na start
+            localStorage.removeItem('cart');
+            
+            updateCartCount();
+            renderCart();
+
+            // Obsługa przycisku płatności
+            document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
+        });
+    </script>
+</body>
+</html>
